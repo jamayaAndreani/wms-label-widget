@@ -3,224 +3,341 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WMS — Generador de Etiquetas</title>
+<title>WitWot WMS — Etiquetas de Ubicación</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --accent: #206FC4; --accent-alt: #1B5FA8; --bg: #f0f2f5;
-    --panel: #ffffff; --border: #dde1e7; --text: #1a1a1a; --muted: #6b7280;
-    --font: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
-  html, body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 13px; }
-  .app { max-width: 980px; margin: 0 auto; padding: 16px; }
-  h1 { font-size: 15px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
-  .tabs { display: flex; gap: 2px; margin-bottom: 16px; border-bottom: 2px solid var(--border); }
-  .tab { padding: 8px 18px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; border: none; background: none; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; font-family: var(--font); }
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 14px; }
-  .panel-title { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; font-weight: 600; }
-  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; }
-  .field { display: flex; flex-direction: column; gap: 3px; }
-  .field label { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-  .field input, .field select { border: 1px solid var(--border); border-radius: 4px; padding: 7px 10px; font-size: 13px; font-family: 'Courier New', monospace; font-weight: 700; background: var(--panel); color: var(--text); outline: none; transition: border-color 0.15s; text-transform: uppercase; }
-  .field input:focus, .field select:focus { border-color: var(--accent); }
-  .field select { font-family: var(--font); font-weight: normal; }
-  .sep { font-size: 18px; font-weight: 900; color: var(--accent); padding-bottom: 6px; align-self: flex-end; flex-shrink: 0; }
-  .style-row { display: flex; gap: 6px; }
-  .style-btn { flex: 1; background: var(--panel); border: 1px solid var(--border); border-radius: 5px; padding: 7px 4px; cursor: pointer; font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--muted); text-align: center; transition: all 0.15s; font-family: var(--font); }
-  .style-btn:hover { border-color: var(--accent); color: var(--text); }
-  .style-btn.active { border-color: var(--accent); color: var(--accent); background: #206FC412; font-weight: 700; }
-  .btn { border: none; border-radius: 5px; padding: 9px 16px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.15s; font-family: var(--font); }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: var(--accent-alt); }
-  .btn-success { background: #16a34a; color: #fff; }
-  .btn-success:hover { background: #15803d; }
-  .btn-row { display: flex; gap: 8px; }
-  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .preview-wrap { background: #9e9e9e; border-radius: 8px; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 200px; margin-bottom: 14px; }
-  .range-info { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px 14px; font-size: 12px; color: #1e40af; margin-bottom: 12px; }
-  .range-info b { font-weight: 700; }
-  .progress-wrap { margin-top: 10px; margin-bottom: 10px; display: none; }
-  .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 4px; }
-  .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.1s; width: 0%; }
-  .progress-label { font-size: 10px; color: var(--muted); }
-  .divider { height: 1px; background: var(--border); margin: 4px 0 14px; }
-  .sub-title { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ww-green:#0090D4; --ww-dark:#0d0d0d; --ww-dark2:#1a1a1a; --ww-dark3:#242424;
+  --ww-border:#2e2e2e; --ww-text:#f0f0f0; --ww-muted:#888;
+  --font:-apple-system,'Helvetica Neue',Arial,sans-serif;
+}
+html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text);min-height:100vh;font-size:13px;}
+.app{max-width:1040px;margin:0 auto;padding:0 0 32px;}
 
-  /* LABEL STYLES */
-  .lbl-industrial { width: 340px; background: #fff; border-radius: 6px; overflow: hidden; font-family: Arial, sans-serif; border: 2px solid #111; box-shadow: 0 3px 10px rgba(0,0,0,0.35); }
-  .lbl-industrial .top-stripe { height: 5px; }
-  .lbl-industrial .hdr { padding: 6px 12px; display: flex; justify-content: space-between; align-items: center; }
-  .lbl-industrial .hdr-sub { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.55); }
-  .lbl-industrial .hdr-tag { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
-  .lbl-industrial .body { padding: 10px 12px 6px; display: flex; gap: 10px; align-items: center; }
-  .lbl-industrial .loc-block { flex: 1; }
-  .lbl-industrial .loc-lbl { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 2px; }
-  .lbl-industrial .loc-code { font-size: 34px; font-weight: 900; letter-spacing: 2px; line-height: 1; }
-  .lbl-industrial .chips { display: flex; gap: 3px; margin-top: 6px; flex-wrap: wrap; }
-  .lbl-industrial .chip { background: #f0f0f0; border-radius: 3px; padding: 2px 6px; font-size: 8px; letter-spacing: 0.5px; color: #555; text-transform: uppercase; }
-  .lbl-industrial .chip b { font-weight: 900; }
-  .lbl-industrial .bc-row { padding: 3px 12px 10px; text-align: center; }
-  .lbl-industrial .bc-row img { max-width: 100%; height: 38px; }
-  .lbl-industrial .bc-txt { font-size: 8px; color: #aaa; letter-spacing: 1px; font-family: monospace; margin-top: 1px; }
-  .lbl-bold { width: 340px; background: #0d1117; border-radius: 8px; overflow: hidden; font-family: Arial, sans-serif; }
-  .lbl-bold .stripe { height: 6px; }
-  .lbl-bold .body { padding: 12px 14px; }
-  .lbl-bold .loc-lbl { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 3px; }
-  .lbl-bold .loc-code { font-size: 44px; font-weight: 900; letter-spacing: 3px; line-height: 1; color: #fff; margin-bottom: 10px; }
-  .lbl-bold .chips { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
-  .lbl-bold .chip { border: 1px solid #2a3a5a; border-radius: 3px; padding: 3px 8px; font-size: 9px; color: #8aa0c0; letter-spacing: 0.5px; text-transform: uppercase; }
-  .lbl-bold .chip b { color: #fff; font-size: 10px; }
-  .lbl-bold .bottom { display: flex; gap: 10px; align-items: flex-end; background: #060810; padding: 10px 14px; margin: 0 -14px -14px; }
-  .lbl-bold .bc-wrap { flex: 1; }
-  .lbl-bold .bc-wrap img { width: 100%; height: 38px; filter: invert(1); }
-  .lbl-bold .bc-txt { font-size: 8px; letter-spacing: 1px; text-align: center; font-family: monospace; margin-top: 2px; }
-  .lbl-minimal { width: 340px; background: #fafafa; border-radius: 3px; overflow: hidden; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; border: 1px solid #ddd; }
-  .lbl-minimal .top { display: flex; }
-  .lbl-minimal .accent-bar { width: 6px; flex-shrink: 0; }
-  .lbl-minimal .top-content { flex: 1; padding: 12px 14px; display: flex; justify-content: space-between; gap: 10px; }
-  .lbl-minimal .loc-lbl { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: #aaa; margin-bottom: 3px; }
-  .lbl-minimal .loc-code { font-size: 36px; font-weight: 900; color: #111; letter-spacing: 3px; line-height: 1; }
-  .lbl-minimal .meta { text-align: right; font-size: 9px; color: #aaa; }
-  .lbl-minimal .meta div { margin-bottom: 2px; }
-  .lbl-minimal .meta b { color: #555; }
-  .lbl-minimal .bottom { border-top: 1px solid #eee; padding: 8px 14px; display: flex; gap: 10px; align-items: center; background: #f3f3f3; }
-  .lbl-minimal .bc-wrap { flex: 1; }
-  .lbl-minimal .bc-wrap img { width: 100%; height: 34px; }
-  .lbl-minimal .bc-txt { font-size: 8px; color: #bbb; text-align: center; font-family: monospace; margin-top: 2px; }
-  .lbl-safety { width: 340px; background: #fff; border-radius: 6px; overflow: hidden; font-family: Arial, sans-serif; }
-  .lbl-safety .zone-bar { padding: 6px 12px; display: flex; align-items: center; gap: 7px; }
-  .lbl-safety .zone-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); flex-shrink: 0; }
-  .lbl-safety .zone-txt { color: #fff; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
-  .lbl-safety .body { padding: 10px 12px; display: flex; gap: 10px; align-items: center; }
-  .lbl-safety .loc-block { flex: 1; }
-  .lbl-safety .loc-lbl { font-size: 8px; letter-spacing: 2px; color: #888; text-transform: uppercase; margin-bottom: 3px; }
-  .lbl-safety .loc-code { font-size: 36px; font-weight: 900; letter-spacing: 2px; line-height: 1; }
-  .lbl-safety .chips { display: flex; gap: 3px; margin-top: 6px; flex-wrap: wrap; }
-  .lbl-safety .chip { border-radius: 3px; padding: 2px 7px; font-size: 8px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 700; color: #fff; }
-  .lbl-safety .bc-row { padding: 3px 12px 8px; text-align: center; }
-  .lbl-safety .bc-row img { max-width: 100%; height: 36px; }
-  .lbl-safety .bc-txt { font-size: 8px; color: #aaa; letter-spacing: 1px; font-family: monospace; margin-top: 1px; }
-  .lbl-safety .bot-line { height: 6px; }
+/* HEADER */
+.header{background:var(--ww-dark2);border-bottom:1px solid var(--ww-border);padding:14px 20px;display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.ww-logo{display:flex;align-items:center;gap:8px;}
+.ww-logo-icon{width:32px;height:32px;position:relative;}
+.ww-logo-icon svg{width:32px;height:32px;}
+.ww-logo-text{font-size:20px;font-weight:900;color:#fff;letter-spacing:-0.5px;}
+.ww-logo-text span{color:var(--ww-green);}
+.header-divider{width:1px;height:28px;background:var(--ww-border);margin:0 6px;}
+.header-sub{font-size:11px;color:var(--ww-muted);letter-spacing:1px;text-transform:uppercase;}
+.header-badge{margin-left:auto;background:var(--ww-green);color:var(--ww-dark);font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:20px;}
+
+.inner{padding:0 20px;}
+
+/* TABS */
+.tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:1px solid var(--ww-border);}
+.tab{padding:10px 20px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;background:none;color:var(--ww-muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.15s;font-family:var(--font);}
+.tab:hover{color:var(--ww-text);}
+.tab.active{color:var(--ww-green);border-bottom-color:var(--ww-green);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* PANELS */
+.panel{background:var(--ww-dark2);border:1px solid var(--ww-border);border-radius:10px;padding:16px;margin-bottom:14px;}
+.panel-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ww-muted);margin-bottom:14px;font-weight:700;}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;}
+.field{display:flex;flex-direction:column;gap:4px;}
+.field label{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ww-muted);font-weight:600;}
+.field input,.field select{border:1px solid var(--ww-border);border-radius:5px;padding:8px 10px;font-size:13px;font-family:'Courier New',monospace;font-weight:700;background:var(--ww-dark3);color:var(--ww-text);outline:none;transition:border-color 0.15s;text-transform:uppercase;}
+.field input:focus,.field select:focus{border-color:var(--ww-green);}
+.field select{font-family:var(--font);font-weight:normal;text-transform:none;}
+.sep{font-size:18px;font-weight:900;color:var(--ww-green);padding-bottom:6px;align-self:flex-end;flex-shrink:0;}
+
+/* ORIENTATION TOGGLE */
+.orient-row{display:flex;gap:8px;}
+.orient-btn{flex:1;background:var(--ww-dark3);border:1px solid var(--ww-border);border-radius:6px;padding:10px 8px;cursor:pointer;text-align:center;transition:all 0.15s;font-family:var(--font);color:var(--ww-muted);}
+.orient-btn:hover{border-color:var(--ww-green);}
+.orient-btn.active{border-color:var(--ww-green);background:#0090D412;color:var(--ww-green);}
+.orient-icon{font-size:22px;display:block;margin-bottom:3px;}
+.orient-label{font-size:9px;letter-spacing:1px;text-transform:uppercase;font-weight:700;}
+.orient-hint{font-size:8px;color:var(--ww-muted);margin-top:2px;}
+
+/* ZEBRA SIZES */
+.zebra-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;}
+.zebra-btn{background:var(--ww-dark3);border:1px solid var(--ww-border);border-radius:6px;padding:9px 10px;cursor:pointer;text-align:left;transition:all 0.15s;font-family:var(--font);}
+.zebra-btn:hover{border-color:var(--ww-green);}
+.zebra-btn.active{border-color:var(--ww-green);background:#0090D412;}
+.zb-size{font-size:12px;font-weight:800;color:var(--ww-text);font-family:monospace;}
+.zb-mm{font-size:9px;color:var(--ww-muted);margin-top:1px;}
+.zb-use{font-size:8px;color:var(--ww-muted);margin-top:3px;}
+.zebra-btn.active .zb-size{color:var(--ww-green);}
+
+/* STYLE BUTTONS */
+.style-row{display:flex;gap:8px;}
+.style-btn{flex:1;background:var(--ww-dark3);border:1px solid var(--ww-border);border-radius:6px;padding:8px 4px;cursor:pointer;font-size:9px;letter-spacing:0.5px;text-transform:uppercase;color:var(--ww-muted);text-align:center;transition:all 0.15s;font-family:var(--font);}
+.style-btn:hover{border-color:var(--ww-green);}
+.style-btn.active{border-color:var(--ww-green);color:var(--ww-green);background:#0090D412;font-weight:700;}
+
+/* BUTTONS */
+.btn{border:none;border-radius:6px;padding:10px 18px;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;cursor:pointer;transition:all 0.15s;font-family:var(--font);}
+.btn-primary{background:var(--ww-green);color:var(--ww-dark);}
+.btn-primary:hover{background:#1aa8e8;}
+.btn-success{background:#16a34a;color:#fff;}
+.btn-success:hover{background:#15803d;}
+.btn-outline{background:transparent;color:var(--ww-green);border:1px solid var(--ww-green);}
+.btn-outline:hover{background:#0090D415;}
+.btn-row{display:flex;gap:8px;}
+.btn:disabled{opacity:0.4;cursor:not-allowed;}
+
+/* PREVIEW */
+.preview-wrap{background:#2a2a2a;border:1px solid var(--ww-border);border-radius:10px;padding:24px;display:flex;justify-content:center;align-items:center;min-height:180px;margin-bottom:14px;overflow:auto;}
+.divider{height:1px;background:var(--ww-border);margin:4px 0 14px;}
+.sub-title{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ww-muted);margin-bottom:8px;font-weight:700;}
+
+/* RANGE INFO */
+.range-info{background:#001a2e;border:1px solid #005280;border-radius:8px;padding:12px 14px;font-size:12px;color:#60c8f0;margin-bottom:12px;}
+.range-info b{color:var(--ww-green);font-weight:800;}
+.progress-wrap{margin-bottom:12px;display:none;}
+.progress-bar{height:4px;background:var(--ww-border);border-radius:2px;overflow:hidden;margin-top:6px;}
+.progress-fill{height:100%;background:var(--ww-green);border-radius:2px;transition:width 0.1s;width:0%;}
+.progress-label{font-size:10px;color:var(--ww-muted);}
+
+/* ===== LABEL STYLES (blanco siempre para imprimir bien) ===== */
+.lbl-industrial{background:#fff;border-radius:6px;overflow:hidden;font-family:Arial,sans-serif;border:2px solid #111;box-shadow:0 4px 16px rgba(0,0,0,0.6);}
+.lbl-industrial .top-stripe{height:5px;}
+.lbl-industrial .hdr{padding:5px 11px;display:flex;justify-content:space-between;align-items:center;}
+.lbl-industrial .hdr-sub{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);}
+.lbl-industrial .hdr-tag{font-size:8px;letter-spacing:2px;text-transform:uppercase;font-weight:700;}
+.lbl-industrial .body{padding:8px 11px 4px;display:flex;gap:8px;align-items:center;}
+.lbl-industrial .loc-block{flex:1;}
+.lbl-industrial .loc-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:2px;}
+.lbl-industrial .loc-code{font-weight:900;letter-spacing:2px;line-height:1;}
+.lbl-industrial .chips{display:flex;gap:3px;margin-top:5px;flex-wrap:wrap;}
+.lbl-industrial .chip{background:#f0f0f0;border-radius:3px;padding:2px 5px;font-size:7px;color:#555;text-transform:uppercase;}
+.lbl-industrial .chip b{font-weight:900;}
+.lbl-industrial .ww-foot{padding:2px 11px;display:flex;justify-content:space-between;align-items:center;}
+.lbl-industrial .ww-name{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#555;}
+.lbl-industrial .bc-row{padding:2px 11px 8px;text-align:center;}
+.lbl-industrial .bc-row img{max-width:100%;height:34px;}
+.lbl-industrial .bc-txt{font-size:7px;color:#aaa;letter-spacing:1px;font-family:monospace;margin-top:1px;}
+
+.lbl-bold{background:#0d1117;border-radius:8px;overflow:hidden;font-family:Arial,sans-serif;box-shadow:0 4px 16px rgba(0,0,0,0.7);}
+.lbl-bold .stripe{height:5px;}
+.lbl-bold .body{padding:10px 13px;}
+.lbl-bold .loc-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;margin-bottom:2px;}
+.lbl-bold .loc-code{font-weight:900;letter-spacing:3px;line-height:1;color:#fff;margin-bottom:8px;}
+.lbl-bold .chips{display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap;}
+.lbl-bold .chip{border:1px solid #2a3a5a;border-radius:3px;padding:2px 7px;font-size:8px;color:#8aa0c0;text-transform:uppercase;}
+.lbl-bold .chip b{color:#fff;}
+.lbl-bold .ww-foot{padding:2px 13px 6px;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;}
+.lbl-bold .bottom{display:flex;gap:8px;align-items:flex-end;background:#060810;padding:8px 13px;}
+.lbl-bold .bc-wrap{flex:1;}
+.lbl-bold .bc-wrap img{width:100%;height:34px;filter:invert(1);}
+.lbl-bold .bc-txt{font-size:7px;letter-spacing:1px;text-align:center;font-family:monospace;margin-top:2px;}
+
+.lbl-minimal{background:#fafafa;border-radius:3px;overflow:hidden;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;border:1px solid #ddd;box-shadow:0 2px 10px rgba(0,0,0,0.4);}
+.lbl-minimal .top{display:flex;}
+.lbl-minimal .accent-bar{width:5px;flex-shrink:0;}
+.lbl-minimal .top-content{flex:1;padding:10px 12px;display:flex;justify-content:space-between;gap:8px;}
+.lbl-minimal .loc-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-bottom:2px;}
+.lbl-minimal .loc-code{font-weight:900;color:#111;letter-spacing:3px;line-height:1;}
+.lbl-minimal .meta{text-align:right;font-size:8px;color:#aaa;}
+.lbl-minimal .meta div{margin-bottom:1px;}
+.lbl-minimal .meta b{color:#555;}
+.lbl-minimal .bottom{border-top:1px solid #eee;padding:5px 12px;display:flex;gap:8px;align-items:center;background:#f3f3f3;}
+.lbl-minimal .ww-name{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:#888;flex-shrink:0;}
+.lbl-minimal .bc-wrap{flex:1;}
+.lbl-minimal .bc-wrap img{width:100%;height:30px;}
+.lbl-minimal .bc-txt{font-size:7px;color:#bbb;text-align:center;font-family:monospace;margin-top:1px;}
+
+.lbl-safety{background:#fff;border-radius:6px;overflow:hidden;font-family:Arial,sans-serif;box-shadow:0 4px 16px rgba(0,0,0,0.5);}
+.lbl-safety .zone-bar{padding:5px 11px;display:flex;align-items:center;gap:6px;}
+.lbl-safety .zone-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.4);flex-shrink:0;}
+.lbl-safety .zone-txt{color:#fff;font-size:8px;letter-spacing:2px;text-transform:uppercase;font-weight:700;}
+.lbl-safety .ww-badge{margin-left:auto;font-size:7px;letter-spacing:1px;color:rgba(255,255,255,0.65);font-weight:800;text-transform:uppercase;}
+.lbl-safety .body{padding:8px 11px;display:flex;gap:8px;align-items:center;}
+.lbl-safety .loc-block{flex:1;}
+.lbl-safety .loc-lbl{font-size:7px;letter-spacing:2px;color:#888;text-transform:uppercase;margin-bottom:2px;}
+.lbl-safety .loc-code{font-weight:900;letter-spacing:2px;line-height:1;}
+.lbl-safety .chips{display:flex;gap:3px;margin-top:5px;flex-wrap:wrap;}
+.lbl-safety .chip{border-radius:3px;padding:2px 6px;font-size:7px;text-transform:uppercase;font-weight:700;color:#fff;}
+.lbl-safety .bc-row{padding:2px 11px 7px;text-align:center;}
+.lbl-safety .bc-row img{max-width:100%;height:32px;}
+.lbl-safety .bc-txt{font-size:7px;color:#aaa;letter-spacing:1px;font-family:monospace;margin-top:1px;}
+.lbl-safety .bot-line{height:5px;}
 </style>
 </head>
 <body>
 <div class="app">
-  <h1>🏭 WMS — Generador de Etiquetas de Ubicación</h1>
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('single',this)">Etiqueta individual</button>
-    <button class="tab" onclick="switchTab('range',this)">Rango de etiquetas (PDF)</button>
+
+  <!-- HEADER WITWOT -->
+  <div class="header">
+    <div class="ww-logo">
+      <!-- Logo W de WitWot -->
+      <div class="ww-logo-icon">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="2,6 8,6 11,20 14,10 18,10 21,20 24,6 30,6 24,26 18,26 16,18 14,26 8,26" fill="#0090D4"/>
+        </svg>
+      </div>
+      <div class="ww-logo-text">Wit<span>Wot</span></div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-sub">WMS · Etiquetas de Ubicación</div>
+    
   </div>
 
-  <!-- TAB 1: INDIVIDUAL -->
-  <div id="tab-single" class="tab-panel active">
-    <div class="panel">
-      <div class="panel-title">Código de ubicación</div>
-      <div class="row">
-        <div class="field" style="width:72px"><label>Pasillo</label><input id="seg1" type="text" value="AII" maxlength="5" oninput="update()"></div>
-        <div class="sep">—</div>
-        <div class="field" style="width:72px"><label>Rack</label><input id="seg2" type="text" value="002" maxlength="5" oninput="update()"></div>
-        <div class="sep">—</div>
-        <div class="field" style="width:72px"><label>Nivel</label><input id="seg3" type="text" value="10" maxlength="5" oninput="update()"></div>
-        <div class="field" style="width:130px"><label>Zona</label>
-          <select id="zone" onchange="update()">
-            <option value="blue">🔵 Azul</option><option value="orange">🟠 Naranja</option>
-            <option value="green">🟢 Verde</option><option value="red">🔴 Roja</option>
-            <option value="purple">🟣 Morada</option><option value="yellow">🟡 Amarilla</option>
-          </select>
-        </div>
-      </div>
+  <div class="inner">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('single',this)">Etiqueta individual</button>
+      <button class="tab" onclick="switchTab('range',this)">Rango de etiquetas (PDF)</button>
     </div>
-    <div class="panel">
-      <div class="panel-title">Estilo</div>
-      <div class="style-row">
-        <button class="style-btn active" onclick="setStyle('industrial',this)">🏗️ Industrial</button>
-        <button class="style-btn" onclick="setStyle('bold',this)">⚡ Dark</button>
-        <button class="style-btn" onclick="setStyle('minimal',this)">✦ Minimal</button>
-        <button class="style-btn" onclick="setStyle('safety',this)">🎨 Safety</button>
-      </div>
-    </div>
-    <div class="divider"></div>
-    <div class="preview-wrap"><div id="labelContainer"></div></div>
-    <div class="btn-row">
-      <button class="btn btn-primary" style="flex:1" onclick="downloadSinglePNG()">⬇ Descargar PNG</button>
-      <button class="btn btn-success" style="flex:1" onclick="downloadSinglePDF()">📄 Descargar PDF</button>
-    </div>
-  </div>
 
-  <!-- TAB 2: RANGO PDF -->
-  <div id="tab-range" class="tab-panel">
-    <div class="panel">
-      <div class="panel-title">Configuración del rango</div>
-      <div class="row" style="gap:20px; flex-wrap:wrap; align-items:flex-start;">
-        <div>
-          <div class="sub-title">Pasillo (fijo)</div>
-          <div class="field" style="width:80px"><label>Pasillo</label><input id="r_seg1" type="text" value="AII" maxlength="5" oninput="updateCount()"></div>
+    <!-- ===== TAB 1: INDIVIDUAL ===== -->
+    <div id="tab-single" class="tab-panel active">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+
+        <!-- Tamaño Zebra -->
+        <div class="panel">
+          <div class="panel-title">Tamaño de etiqueta Zebra</div>
+          <div class="zebra-grid" id="zebra-grid"></div>
         </div>
-        <div>
-          <div class="sub-title">Rack — rango numérico</div>
-          <div class="row">
-            <div class="field" style="width:70px"><label>Desde</label><input id="r_rack_from" type="number" value="1" min="1" max="999" oninput="updateCount()"></div>
-            <div class="sep" style="padding-bottom:6px;">→</div>
-            <div class="field" style="width:70px"><label>Hasta</label><input id="r_rack_to" type="number" value="10" min="1" max="999" oninput="updateCount()"></div>
+
+        <!-- Orientación -->
+        <div class="panel">
+          <div class="panel-title">Orientación</div>
+          <div class="orient-row">
+            <button class="orient-btn active" id="orient-h" onclick="setOrient('h')">
+              <span class="orient-icon">⬜</span>
+              <div class="orient-label">Horizontal</div>
+              <div class="orient-hint">Ancho &gt; Alto</div>
+            </button>
+            <button class="orient-btn" id="orient-v" onclick="setOrient('v')">
+              <span class="orient-icon">▭</span>
+              <div class="orient-label">Vertical</div>
+              <div class="orient-hint">Alto &gt; Ancho</div>
+            </button>
+          </div>
+          <div style="margin-top:12px;">
+            <div class="panel-title" style="margin-bottom:10px;">Estilo visual</div>
+            <div class="style-row">
+              <button class="style-btn active" onclick="setStyle('industrial',this)">🏗️ Industrial</button>
+              <button class="style-btn" onclick="setStyle('bold',this)">⚡ Dark</button>
+              <button class="style-btn" onclick="setStyle('minimal',this)">✦ Minimal</button>
+              <button class="style-btn" onclick="setStyle('safety',this)">🎨 Safety</button>
+            </div>
           </div>
         </div>
-        <div>
-          <div class="sub-title">Nivel — rango numérico</div>
-          <div class="row">
-            <div class="field" style="width:70px"><label>Desde</label><input id="r_nivel_from" type="number" value="1" min="1" max="99" oninput="updateCount()"></div>
-            <div class="sep" style="padding-bottom:6px;">→</div>
-            <div class="field" style="width:70px"><label>Hasta</label><input id="r_nivel_to" type="number" value="5" min="1" max="99" oninput="updateCount()"></div>
-          </div>
-        </div>
-        <div>
-          <div class="sub-title">Zona</div>
-          <div class="field" style="width:130px"><label>Color</label>
-            <select id="r_zone">
+      </div>
+
+      <!-- Código -->
+      <div class="panel">
+        <div class="panel-title">Código de ubicación</div>
+        <div class="row">
+          <div class="field" style="width:72px"><label>Pasillo</label><input id="seg1" type="text" value="AII" maxlength="5" oninput="update()"></div>
+          <div class="sep">—</div>
+          <div class="field" style="width:72px"><label>Rack</label><input id="seg2" type="text" value="002" maxlength="5" oninput="update()"></div>
+          <div class="sep">—</div>
+          <div class="field" style="width:72px"><label>Nivel</label><input id="seg3" type="text" value="10" maxlength="5" oninput="update()"></div>
+          <div class="field" style="width:130px"><label>Zona</label>
+            <select id="zone" onchange="update()">
               <option value="blue">🔵 Azul</option><option value="orange">🟠 Naranja</option>
               <option value="green">🟢 Verde</option><option value="red">🔴 Roja</option>
               <option value="purple">🟣 Morada</option><option value="yellow">🟡 Amarilla</option>
             </select>
           </div>
         </div>
-        <div>
-          <div class="sub-title">Estilo</div>
-          <div class="field" style="width:130px"><label>Diseño</label>
-            <select id="r_style">
-              <option value="industrial">🏗️ Industrial</option><option value="bold">⚡ Dark</option>
-              <option value="minimal">✦ Minimal</option><option value="safety">🎨 Safety</option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <div class="sub-title">Etiquetas por página</div>
-          <div class="field" style="width:110px"><label>Por hoja</label>
-            <select id="r_ppp">
-              <option value="1">1 (grande)</option>
-              <option value="2" selected>2 (media)</option>
-              <option value="4">4 (chica)</option>
-              <option value="6">6 (mini)</option>
-            </select>
-          </div>
-        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="preview-wrap"><div id="labelContainer"></div></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" style="flex:1" onclick="downloadSinglePNG()">⬇ PNG</button>
+        <button class="btn btn-primary" style="flex:1" onclick="downloadSinglePDF()">📄 PDF (tamaño Zebra)</button>
       </div>
     </div>
 
-    <div class="range-info">
-      Se van a generar <b id="count-display">50</b> etiquetas en el PDF.<br>
-      <span style="font-size:11px;opacity:0.8;">Rango: <span id="range-preview">AII-001-01 → AII-010-05</span></span>
+    <!-- ===== TAB 2: RANGO PDF ===== -->
+    <div id="tab-range" class="tab-panel">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div class="panel">
+          <div class="panel-title">Tamaño de etiqueta Zebra</div>
+          <div class="zebra-grid" id="zebra-grid-range"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Orientación</div>
+          <div class="orient-row">
+            <button class="orient-btn active" id="orient-h-r" onclick="setOrient('h')">
+              <span class="orient-icon">⬜</span>
+              <div class="orient-label">Horizontal</div>
+              <div class="orient-hint">Ancho &gt; Alto</div>
+            </button>
+            <button class="orient-btn" id="orient-v-r" onclick="setOrient('v')">
+              <span class="orient-icon">▭</span>
+              <div class="orient-label">Vertical</div>
+              <div class="orient-hint">Alto &gt; Ancho</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Configuración del rango</div>
+        <div class="row" style="gap:20px;flex-wrap:wrap;align-items:flex-start;">
+          <div><div class="sub-title">Pasillo (fijo)</div>
+            <div class="field" style="width:80px"><label>Pasillo</label><input id="r_seg1" type="text" value="AII" maxlength="5" oninput="updateCount()"></div>
+          </div>
+          <div><div class="sub-title">Rack — rango</div>
+            <div class="row">
+              <div class="field" style="width:70px"><label>Desde</label><input id="r_rack_from" type="number" value="1" min="1" max="999" oninput="updateCount()"></div>
+              <div class="sep" style="padding-bottom:6px;">→</div>
+              <div class="field" style="width:70px"><label>Hasta</label><input id="r_rack_to" type="number" value="10" min="1" max="999" oninput="updateCount()"></div>
+            </div>
+          </div>
+          <div><div class="sub-title">Nivel — rango</div>
+            <div class="row">
+              <div class="field" style="width:70px"><label>Desde</label><input id="r_nivel_from" type="number" value="1" min="1" max="99" oninput="updateCount()"></div>
+              <div class="sep" style="padding-bottom:6px;">→</div>
+              <div class="field" style="width:70px"><label>Hasta</label><input id="r_nivel_to" type="number" value="5" min="1" max="99" oninput="updateCount()"></div>
+            </div>
+          </div>
+          <div><div class="sub-title">Zona</div>
+            <div class="field" style="width:130px"><label>Color</label>
+              <select id="r_zone">
+                <option value="blue">🔵 Azul</option><option value="orange">🟠 Naranja</option>
+                <option value="green">🟢 Verde</option><option value="red">🔴 Roja</option>
+                <option value="purple">🟣 Morada</option><option value="yellow">🟡 Amarilla</option>
+              </select>
+            </div>
+          </div>
+          <div><div class="sub-title">Estilo</div>
+            <div class="field" style="width:130px"><label>Diseño</label>
+              <select id="r_style">
+                <option value="industrial">🏗️ Industrial</option><option value="bold">⚡ Dark</option>
+                <option value="minimal">✦ Minimal</option><option value="safety">🎨 Safety</option>
+              </select>
+            </div>
+          </div>
+          <div><div class="sub-title">Por página</div>
+            <div class="field" style="width:110px"><label>Etiquetas</label>
+              <select id="r_ppp">
+                <option value="1">1 (grande)</option>
+                <option value="2" selected>2 (media)</option>
+                <option value="4">4 (chica)</option>
+                <option value="6">6 (mini)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="range-info">
+        Se van a generar <b id="count-display">50</b> etiquetas.<br>
+        <span style="font-size:11px;">Rango: <span id="range-preview">AII-001-01 → AII-010-05</span></span>
+      </div>
+      <div class="progress-wrap" id="progress-wrap">
+        <div class="progress-label">Generando PDF... <span id="progress-text">0 / 0</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;font-size:13px;padding:13px;" id="pdf-btn" onclick="generateRangePDF()">
+        📄 Generar y Descargar PDF
+      </button>
     </div>
 
-    <div class="progress-wrap" id="progress-wrap">
-      <div class="progress-label">Generando PDF... <span id="progress-text">0 / 0</span></div>
-      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-    </div>
-
-    <button class="btn btn-success" style="width:100%;font-size:13px;padding:12px;" id="pdf-btn" onclick="generateRangePDF()">
-      📄 Generar y Descargar PDF
-    </button>
   </div>
 </div>
 
@@ -229,51 +346,127 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-let currentStyle = 'industrial';
+/* ============================================================
+   DATOS
+============================================================ */
+const ZEBRA_SIZES = [
+  {id:'z1',label:'2" × 1"',  w:50.8, h:25.4, desc:'Bins / niveles',    use:'ZD220, ZD420'},
+  {id:'z2',label:'3" × 1"',  w:76.2, h:25.4, desc:'Cable / rack chico',use:'ZD420, ZD620'},
+  {id:'z3',label:'3" × 2"',  w:76.2, h:50.8, desc:'Racks medianos',    use:'ZD420, ZD620'},
+  {id:'z4',label:'4" × 2"',  w:101.6,h:50.8, desc:'⭐ WH estándar',    use:'ZD420, ZT410'},
+  {id:'z5',label:'4" × 3"',  w:101.6,h:76.2, desc:'Pallet / dock',     use:'ZD620, ZT410'},
+  {id:'z6',label:'4" × 6"',  w:101.6,h:152.4,desc:'Shipping',          use:'ZD420, ZT230'},
+  {id:'z7',label:'100×50mm', w:100,  h:50,   desc:'Rack europeo',      use:'ZD421, ZT411'},
+  {id:'z8',label:'100×75mm', w:100,  h:75,   desc:'Ubicación grande',  use:'ZD421, ZT411'},
+  {id:'z9',label:'100×150mm',w:100,  h:150,  desc:'Full pallet',       use:'ZT230, ZT410'},
+];
+
+let selectedZebraId = 'z4';
+let currentStyle    = 'industrial';
+let orientation     = 'h'; // 'h' = horizontal, 'v' = vertical
+
 const zones = {
-  blue:   { bg:'#1a3a6e', accent:'#4a9eff', dark:'#0d2244', name:'Zona Azul' },
-  orange: { bg:'#8a4000', accent:'#ff8c2a', dark:'#5a2800', name:'Zona Naranja' },
-  green:  { bg:'#1a5a34', accent:'#00d46a', dark:'#0d3a20', name:'Zona Verde' },
-  red:    { bg:'#7a1a1a', accent:'#ff4a4a', dark:'#4a0d0d', name:'Zona Roja' },
-  purple: { bg:'#3a1a7a', accent:'#9a5aff', dark:'#220d4a', name:'Zona Morada' },
-  yellow: { bg:'#5a4800', accent:'#ffd600', dark:'#3a2e00', name:'Zona Amarilla' },
+  blue:  {bg:'#1a3a6e',accent:'#4a9eff',dark:'#0d2244',name:'Zona Azul'},
+  orange:{bg:'#8a4000',accent:'#ff8c2a',dark:'#5a2800',name:'Zona Naranja'},
+  green: {bg:'#1a5a34',accent:'#00d46a',dark:'#0d3a20',name:'Zona Verde'},
+  red:   {bg:'#7a1a1a',accent:'#ff4a4a',dark:'#4a0d0d',name:'Zona Roja'},
+  purple:{bg:'#3a1a7a',accent:'#9a5aff',dark:'#220d4a',name:'Zona Morada'},
+  yellow:{bg:'#5a4800',accent:'#ffd600',dark:'#3a2e00',name:'Zona Amarilla'},
 };
 
-function switchTab(id, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+/* ---- helpers ---- */
+function getZebra() { return ZEBRA_SIZES.find(s=>s.id===selectedZebraId)||ZEBRA_SIZES[3]; }
+
+// Dimensiones reales según orientación
+function getDims() {
+  const sz = getZebra();
+  let w = sz.w, h = sz.h;
+  if (orientation === 'v' && w > h) { [w,h]=[h,w]; }
+  if (orientation === 'h' && h > w) { [w,h]=[h,w]; }
+  return {w, h};
+}
+
+function getLabelPx() {
+  const {w,h} = getDims();
+  const SCALE = 3.2;
+  return {w:Math.round(w*SCALE), h:Math.round(h*SCALE)};
+}
+
+/* ---- render grillas ---- */
+function renderZebraGrids() {
+  ['zebra-grid','zebra-grid-range'].forEach(gid=>{
+    const g=document.getElementById(gid); if(!g) return;
+    g.innerHTML='';
+    ZEBRA_SIZES.forEach(sz=>{
+      const btn=document.createElement('button');
+      btn.className='zebra-btn'+(sz.id===selectedZebraId?' active':'');
+      btn.innerHTML=`<div class="zb-size">${sz.label}</div><div class="zb-mm">${sz.w}×${sz.h}mm</div><div class="zb-use">${sz.desc}</div>`;
+      btn.onclick=()=>{selectedZebraId=sz.id;renderZebraGrids();update();};
+      g.appendChild(btn);
+    });
+  });
+}
+
+/* ---- orientación ---- */
+function setOrient(o) {
+  orientation = o;
+  ['orient-h','orient-v','orient-h-r','orient-v-r'].forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    el.classList.toggle('active', (id.includes('-v') ? o==='v' : o==='h'));
+  });
+  update();
+}
+
+/* ============================================================
+   TABS
+============================================================ */
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
 }
 
+/* ============================================================
+   BUILDERS
+============================================================ */
 function buildLabel(style, code, s1, s2, s3, z) {
+  const {w,h} = getLabelPx();
+  const fontSize = Math.max(14, Math.min(38, Math.round(Math.min(w,h)*0.28)));
   const d = document.createElement('div');
-  if (style === 'industrial') {
-    d.className = 'lbl-industrial';
-    d.innerHTML = `<div class="top-stripe" style="background:linear-gradient(90deg,${z.accent},${z.bg});"></div>
+  d.style.cssText = `width:${w}px;height:${h}px;overflow:hidden;position:relative;flex-shrink:0;`;
+
+  if (style==='industrial') {
+    d.className='lbl-industrial';
+    d.innerHTML=`<div class="top-stripe" style="background:linear-gradient(90deg,${z.accent},${z.bg});"></div>
       <div class="hdr" style="background:${z.bg};"><span class="hdr-sub">WMS · Almacén</span><span class="hdr-tag" style="color:${z.accent};">Ubicación Rack</span></div>
-      <div class="body"><div class="loc-block"><div class="loc-lbl">Código de Ubicación</div><div class="loc-code" style="color:${z.dark};">${code}</div>
+      <div class="body"><div class="loc-block"><div class="loc-lbl">Código de Ubicación</div>
+        <div class="loc-code" style="color:${z.dark};font-size:${fontSize}px;">${code}</div>
         <div class="chips"><div class="chip"><b style="color:${z.dark}">${s1}</b> Pasillo</div><div class="chip"><b style="color:${z.dark}">${s2}</b> Rack</div><div class="chip"><b style="color:${z.dark}">${s3}</b> Nivel</div></div>
       </div><div id="qr-el"></div></div>
+      
       <div class="bc-row"><img id="bc-el"><div class="bc-txt">${code}</div></div>`;
-  } else if (style === 'bold') {
-    d.className = 'lbl-bold'; d.style.border=`2px solid ${z.accent}33`;
-    d.innerHTML = `<div class="stripe" style="background:linear-gradient(90deg,${z.accent},${z.bg});"></div>
-      <div class="body"><div class="loc-lbl" style="color:${z.accent};">Ubicación en Rack</div><div class="loc-code">${code}</div>
+  } else if (style==='bold') {
+    d.className='lbl-bold'; d.style.border=`2px solid ${z.accent}33`;
+    d.innerHTML=`<div class="stripe" style="background:linear-gradient(90deg,${z.accent},${z.bg});"></div>
+      <div class="body"><div class="loc-lbl" style="color:${z.accent};">Ubicación en Rack</div>
+        <div class="loc-code" style="font-size:${fontSize}px;">${code}</div>
         <div class="chips"><div class="chip" style="border-color:${z.accent}44;"><b>${s1}</b> Pasillo</div><div class="chip" style="border-color:${z.accent}44;"><b>${s2}</b> Rack</div><div class="chip" style="border-color:${z.accent}44;"><b>${s3}</b> Nivel</div></div>
+        
         <div class="bottom"><div class="bc-wrap"><img id="bc-el"><div class="bc-txt" style="color:${z.accent}88;">${code}</div></div><div id="qr-el"></div></div>
       </div>`;
-  } else if (style === 'minimal') {
-    d.className = 'lbl-minimal';
-    d.innerHTML = `<div class="top"><div class="accent-bar" style="background:${z.accent};"></div>
-        <div class="top-content"><div><div class="loc-lbl">Ubicación</div><div class="loc-code">${code}</div></div>
-          <div class="meta"><div>Pasillo: <b>${s1}</b></div><div>Rack: <b>${s2}</b></div><div>Nivel: <b>${s3}</b></div><div id="qr-el" style="margin-top:6px;"></div></div>
+  } else if (style==='minimal') {
+    d.className='lbl-minimal';
+    d.innerHTML=`<div class="top"><div class="accent-bar" style="background:${z.accent};"></div>
+        <div class="top-content"><div><div class="loc-lbl">Ubicación</div><div class="loc-code" style="font-size:${fontSize}px;">${code}</div></div>
+          <div class="meta"><div>Pasillo: <b>${s1}</b></div><div>Rack: <b>${s2}</b></div><div>Nivel: <b>${s3}</b></div><div id="qr-el" style="margin-top:4px;"></div></div>
         </div></div>
       <div class="bottom"><div class="bc-wrap"><img id="bc-el"><div class="bc-txt">${code}</div></div></div>`;
   } else {
-    d.className = 'lbl-safety'; d.style.border=`3px solid ${z.accent}`;
-    d.innerHTML = `<div class="zone-bar" style="background:${z.bg};"><div class="zone-dot"></div><span class="zone-txt">${z.name}</span></div>
-      <div class="body"><div class="loc-block"><div class="loc-lbl">Código de Ubicación</div><div class="loc-code" style="color:${z.dark};">${code}</div>
+    d.className='lbl-safety'; d.style.border=`3px solid ${z.accent}`;
+    d.innerHTML=`<div class="zone-bar" style="background:${z.bg};"><div class="zone-dot"></div><span class="zone-txt">${z.name}</span></div>
+      <div class="body"><div class="loc-block"><div class="loc-lbl">Código de Ubicación</div>
+        <div class="loc-code" style="color:${z.dark};font-size:${fontSize}px;">${code}</div>
         <div class="chips"><div class="chip" style="background:${z.dark};">Pasillo: ${s1}</div><div class="chip" style="background:${z.accent};">Rack: ${s2}</div><div class="chip" style="background:${z.bg};">Nivel: ${s3}</div></div>
       </div><div id="qr-el"></div></div>
       <div class="bc-row"><img id="bc-el"><div class="bc-txt">${code}</div></div>
@@ -282,24 +475,28 @@ function buildLabel(style, code, s1, s2, s3, z) {
   return d;
 }
 
-function injectAssets(label, code, style) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const bcImg = label.querySelector('#bc-el');
-      if (bcImg) { const c = document.createElement('canvas'); try { JsBarcode(c,code,{format:'CODE128',width:2,height:50,displayValue:false,margin:4,background:'#ffffff'}); bcImg.src=c.toDataURL(); } catch(e){} }
-      const qrEl = label.querySelector('#qr-el');
-      if (qrEl) { qrEl.innerHTML=''; try { new QRCode(qrEl,{text:code,width:64,height:64,colorDark:style==='bold'?'#ffffff':'#111111',colorLight:'transparent',correctLevel:QRCode.CorrectLevel.M}); } catch(e){} }
-      setTimeout(resolve, 80);
-    }, 10);
+function injectAssets(label,code,style){
+  return new Promise(resolve=>{
+    setTimeout(()=>{
+      const bcImg=label.querySelector('#bc-el');
+      if(bcImg){const c=document.createElement('canvas');try{JsBarcode(c,code,{format:'CODE128',width:2,height:50,displayValue:false,margin:4,background:'#ffffff'});bcImg.src=c.toDataURL();}catch(e){}}
+      const qrEl=label.querySelector('#qr-el');
+      if(qrEl){qrEl.innerHTML='';const {h}=getLabelPx();const sz=Math.min(52,Math.round(h*0.38));try{new QRCode(qrEl,{text:code,width:sz,height:sz,colorDark:style==='bold'?'#ffffff':'#111111',colorLight:'transparent',correctLevel:QRCode.CorrectLevel.M});}catch(e){}}
+      setTimeout(resolve,80);
+    },10);
   });
 }
 
-async function update() {
+/* ============================================================
+   TAB 1
+============================================================ */
+async function update(){
   const s1=(document.getElementById('seg1').value||'AII').toUpperCase();
   const s2=(document.getElementById('seg2').value||'002').toUpperCase();
   const s3=(document.getElementById('seg3').value||'10').toUpperCase();
   const zone=document.getElementById('zone').value;
-  const code=`${s1}-${s2}-${s3}`; const z=zones[zone];
+  const code=`${s1}-${s2}-${s3}`;
+  const z=zones[zone];
   const container=document.getElementById('labelContainer');
   container.innerHTML='';
   const label=buildLabel(currentStyle,code,s1,s2,s3,z);
@@ -307,33 +504,38 @@ async function update() {
   await injectAssets(label,code,currentStyle);
 }
 
-function setStyle(s,btn) { currentStyle=s; document.querySelectorAll('.style-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); update(); }
+function setStyle(s,btn){currentStyle=s;document.querySelectorAll('.style-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');update();}
 
-async function downloadSinglePNG() {
-  const el=document.querySelector('#labelContainer > div'); if(!el) return;
+async function downloadSinglePNG(){
+  const el=document.querySelector('#labelContainer > div');if(!el)return;
   const s1=document.getElementById('seg1').value.toUpperCase();
   const s2=document.getElementById('seg2').value.toUpperCase();
   const s3=document.getElementById('seg3').value.toUpperCase();
   const canvas=await html2canvas(el,{scale:3,useCORS:true,backgroundColor:null});
-  const a=document.createElement('a'); a.download=`etiqueta-${s1}-${s2}-${s3}.png`; a.href=canvas.toDataURL('image/png'); a.click();
+  const a=document.createElement('a');a.download=`etiqueta-${s1}-${s2}-${s3}.png`;a.href=canvas.toDataURL('image/png');a.click();
 }
 
-async function downloadSinglePDF() {
-  const el=document.querySelector('#labelContainer > div'); if(!el) return;
+async function downloadSinglePDF(){
+  const el=document.querySelector('#labelContainer > div');if(!el)return;
   const s1=document.getElementById('seg1').value.toUpperCase();
   const s2=document.getElementById('seg2').value.toUpperCase();
   const s3=document.getElementById('seg3').value.toUpperCase();
+  const {w,h}=getDims();
   const canvas=await html2canvas(el,{scale:3,useCORS:true,backgroundColor:'#ffffff'});
   const {jsPDF}=window.jspdf;
-  const pw=canvas.width*0.264583, ph=canvas.height*0.264583;
-  const pdf=new jsPDF({orientation:pw>ph?'l':'p',unit:'mm',format:[pw,ph]});
-  pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,0,pw,ph);
-  pdf.save(`etiqueta-${s1}-${s2}-${s3}.pdf`);
+  const orient=w>=h?'l':'p';
+  const pdf=new jsPDF({orientation:orient,unit:'mm',format:[w,h]});
+  pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,0,w,h);
+  const sz=getZebra();
+  pdf.save(`etiqueta-${s1}-${s2}-${s3}_${sz.label.replace(/[^a-z0-9]/gi,'-')}_${orientation==='h'?'H':'V'}.pdf`);
 }
 
+/* ============================================================
+   TAB 2
+============================================================ */
 function pad(n,len){return String(n).padStart(len,'0');}
 
-function updateCount() {
+function updateCount(){
   const s1=(document.getElementById('r_seg1').value||'AII').toUpperCase();
   const rf=parseInt(document.getElementById('r_rack_from').value)||1;
   const rt=parseInt(document.getElementById('r_rack_to').value)||1;
@@ -344,7 +546,7 @@ function updateCount() {
   document.getElementById('range-preview').textContent=`${s1}-${pad(rf,3)}-${pad(nf,2)} → ${s1}-${pad(rt,3)}-${pad(nt,2)}`;
 }
 
-async function generateRangePDF() {
+async function generateRangePDF(){
   const s1=(document.getElementById('r_seg1').value||'AII').toUpperCase();
   const rf=parseInt(document.getElementById('r_rack_from').value)||1;
   const rt=parseInt(document.getElementById('r_rack_to').value)||1;
@@ -354,6 +556,7 @@ async function generateRangePDF() {
   const style=document.getElementById('r_style').value;
   const ppp=parseInt(document.getElementById('r_ppp').value);
   const z=zones[zone];
+  const {w:lw,h:lh}=getDims();
 
   if(rf>rt){alert('Rack "Desde" no puede ser mayor que "Hasta".');return;}
   if(nf>nt){alert('Nivel "Desde" no puede ser mayor que "Hasta".');return;}
@@ -361,49 +564,53 @@ async function generateRangePDF() {
   const labels=[];
   for(let r=rf;r<=rt;r++) for(let n=nf;n<=nt;n++) labels.push({s1,s2:pad(r,3),s3:pad(n,2)});
   const total=labels.length;
-  if(total>500){alert(`Son ${total} etiquetas. Máximo: 500. Reducí el rango.`);return;}
+  if(total>500){alert(`Son ${total} etiquetas. Máximo: 500.`);return;}
   if(total===0){alert('El rango no produce etiquetas.');return;}
 
   const btn=document.getElementById('pdf-btn');
-  btn.disabled=true; btn.textContent='⏳ Generando...';
-  const pw=document.getElementById('progress-wrap');
-  pw.style.display='block';
+  btn.disabled=true;btn.textContent='⏳ Generando...';
+  document.getElementById('progress-wrap').style.display='block';
 
   const sandbox=document.createElement('div');
   sandbox.style.cssText='position:fixed;left:-9999px;top:0;z-index:-1;background:#fff;';
   document.body.appendChild(sandbox);
 
   const {jsPDF}=window.jspdf;
-  const cfgs={1:{cols:1,rows:1,pw:148,ph:105,o:'l'},2:{cols:2,rows:1,pw:297,ph:110,o:'l'},4:{cols:2,rows:2,pw:297,ph:210,o:'l'},6:{cols:3,rows:2,pw:297,ph:210,o:'l'}};
-  const cfg=cfgs[ppp]||cfgs[2];
-  const pdf=new jsPDF({orientation:cfg.o,unit:'mm',format:[cfg.pw,cfg.ph]});
-  const cellW=cfg.pw/cfg.cols, cellH=cfg.ph/cfg.rows, mg=3;
+  const cols=ppp<=2?ppp:ppp<=4?2:3;
+  const rows=Math.ceil(ppp/cols);
+  const mg=2;
+  const pgW=lw*cols+mg*(cols+1);
+  const pgH=lh*rows+mg*(rows+1);
+  const orient=pgW>=pgH?'l':'p';
+  const pdf=new jsPDF({orientation:orient,unit:'mm',format:[pgW,pgH]});
   let cellIndex=0;
 
   for(let i=0;i<labels.length;i++){
-    const {s1:ls1,s2:ls2,s3:ls3}=labels[i];
+    const{s1:ls1,s2:ls2,s3:ls3}=labels[i];
     const code=`${ls1}-${ls2}-${ls3}`;
     const label=buildLabel(style,code,ls1,ls2,ls3,z);
-    sandbox.innerHTML=''; sandbox.appendChild(label);
+    sandbox.innerHTML='';sandbox.appendChild(label);
     await injectAssets(label,code,style);
     const canvas=await html2canvas(label,{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false});
-    if(cellIndex>0 && cellIndex%ppp===0){ pdf.addPage([cfg.pw,cfg.ph],cfg.o); cellIndex=0; }
-    const col=cellIndex%cfg.cols, row=Math.floor(cellIndex/cfg.cols);
-    pdf.addImage(canvas.toDataURL('image/png'),'PNG',col*cellW+mg,row*cellH+mg,cellW-mg*2,cellH-mg*2);
+    if(cellIndex>0&&cellIndex%ppp===0){pdf.addPage([pgW,pgH],orient);cellIndex=0;}
+    const col=cellIndex%cols;const row=Math.floor(cellIndex/cols);
+    pdf.addImage(canvas.toDataURL('image/png'),'PNG',mg+col*(lw+mg),mg+row*(lh+mg),lw,lh);
     cellIndex++;
     const pct=Math.round(((i+1)/total)*100);
     document.getElementById('progress-fill').style.width=pct+'%';
     document.getElementById('progress-text').textContent=`${i+1} / ${total} (${pct}%)`;
     await new Promise(r=>setTimeout(r,0));
   }
-
   document.body.removeChild(sandbox);
-  pdf.save(`etiquetas-${s1}-R${pad(rf,3)}-${pad(rt,3)}_N${pad(nf,2)}-${pad(nt,2)}.pdf`);
-  btn.disabled=false; btn.textContent='📄 Generar y Descargar PDF';
-  pw.style.display='none';
+  const sz=getZebra();
+  pdf.save(`etiquetas-${s1}_R${pad(rf,3)}-${pad(rt,3)}_N${pad(nf,2)}-${pad(nt,2)}_${sz.label.replace(/[^a-z0-9]/gi,'-')}_${orientation==='h'?'H':'V'}.pdf`);
+  btn.disabled=false;btn.textContent='📄 Generar y Descargar PDF';
+  document.getElementById('progress-wrap').style.display='none';
   document.getElementById('progress-fill').style.width='0%';
 }
 
+/* INIT */
+renderZebraGrids();
 setTimeout(()=>{update();updateCount();},200);
 </script>
 </body>
