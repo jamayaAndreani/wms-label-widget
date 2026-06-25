@@ -11,32 +11,32 @@
   --ww-border:#2e2e2e; --ww-text:#f0f0f0; --ww-muted:#888;
   --font:-apple-system,'Helvetica Neue',Arial,sans-serif;
 }
-html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text);min-height:100vh;font-size:13px;}
-.app{max-width:1040px;margin:0 auto;padding:0 0 32px;}
+html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text);min-height:100vh;font-size:clamp(11px,1.1vw,13px);}
+.app{max-width:100%;margin:0;padding:0 0 16px;}
 
 /* HEADER */
-.header{background:var(--ww-dark2);border-bottom:1px solid var(--ww-border);padding:14px 20px;display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.header{background:var(--ww-dark2);border-bottom:1px solid var(--ww-border);padding:8px 16px;display:flex;align-items:center;gap:10px;margin-bottom:12px;}
 .ww-logo{display:flex;align-items:center;gap:8px;}
-.ww-logo-icon{width:32px;height:32px;position:relative;}
-.ww-logo-icon svg{width:32px;height:32px;}
-.ww-logo-text{font-size:20px;font-weight:900;color:#fff;letter-spacing:-0.5px;}
+.ww-logo-icon{width:26px;height:26px;position:relative;}
+.ww-logo-icon svg{width:26px;height:26px;}
+.ww-logo-text{font-size:17px;font-weight:900;color:#fff;letter-spacing:-0.5px;}
 .ww-logo-text span{color:var(--ww-green);}
 .header-divider{width:1px;height:28px;background:var(--ww-border);margin:0 6px;}
 .header-sub{font-size:11px;color:var(--ww-muted);letter-spacing:1px;text-transform:uppercase;}
 .header-badge{margin-left:auto;background:var(--ww-green);color:var(--ww-dark);font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:20px;}
 
-.inner{padding:0 20px;}
+.inner{padding:0 12px;}
 
 /* TABS */
-.tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:1px solid var(--ww-border);}
-.tab{padding:10px 20px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;background:none;color:var(--ww-muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.15s;font-family:var(--font);}
+.tabs{display:flex;gap:0;margin-bottom:12px;border-bottom:1px solid var(--ww-border);}
+.tab{padding:7px 14px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;background:none;color:var(--ww-muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.15s;font-family:var(--font);}
 .tab:hover{color:var(--ww-text);}
 .tab.active{color:var(--ww-green);border-bottom-color:var(--ww-green);}
 .tab-panel{display:none;}
 .tab-panel.active{display:block;}
 
 /* PANELS */
-.panel{background:var(--ww-dark2);border:1px solid var(--ww-border);border-radius:10px;padding:16px;margin-bottom:14px;}
+.panel{background:var(--ww-dark2);border:1px solid var(--ww-border);border-radius:8px;padding:12px;margin-bottom:10px;}
 .panel-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ww-muted);margin-bottom:14px;font-weight:700;}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;}
 .field{display:flex;flex-direction:column;gap:4px;}
@@ -56,8 +56,8 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
 .orient-hint{font-size:8px;color:var(--ww-muted);margin-top:2px;}
 
 /* ZEBRA SIZES */
-.zebra-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;}
-.zebra-btn{background:var(--ww-dark3);border:1px solid var(--ww-border);border-radius:6px;padding:9px 10px;cursor:pointer;text-align:left;transition:all 0.15s;font-family:var(--font);}
+.zebra-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;}
+.zebra-btn{background:var(--ww-dark3);border:1px solid var(--ww-border);border-radius:6px;padding:7px 8px;cursor:pointer;text-align:left;transition:all 0.15s;font-family:var(--font);}
 .zebra-btn:hover{border-color:var(--ww-green);}
 .zebra-btn.active{border-color:var(--ww-green);background:#0090D412;}
 .zb-size{font-size:12px;font-weight:800;color:var(--ww-text);font-family:monospace;}
@@ -158,6 +158,29 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
 .lbl-safety .bc-row img{max-width:100%;height:32px;}
 .lbl-safety .bc-txt{font-size:7px;color:#aaa;letter-spacing:1px;font-family:monospace;margin-top:1px;}
 .lbl-safety .bot-line{height:5px;}
+
+  @media (max-width: 900px) {
+    .zebra-grid { grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 5px; }
+    .style-row { gap: 5px; }
+    .style-btn { padding: 6px 2px; font-size: 8px; }
+    .orient-btn { padding: 7px 4px; }
+    .orient-icon { font-size: 18px; }
+    .field input, .field select { padding: 6px 8px; font-size: 12px; }
+    .row { gap: 6px; }
+  }
+  @media (max-width: 700px) {
+    div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+    .zebra-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* ZOOM CONTROL */
+  .zoom-bar{position:fixed;bottom:16px;right:16px;z-index:999;display:flex;align-items:center;gap:6px;background:var(--ww-dark2);border:1px solid var(--ww-border);border-radius:20px;padding:6px 12px;box-shadow:0 4px 16px rgba(0,0,0,0.5);}
+  .zoom-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--ww-border);background:var(--ww-dark3);color:var(--ww-text);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;line-height:1;font-family:var(--font);}
+  .zoom-btn:hover{border-color:var(--ww-green);color:var(--ww-green);}
+  .zoom-label{font-size:11px;font-weight:700;color:var(--ww-muted);min-width:36px;text-align:center;letter-spacing:1px;}
+  .zoom-reset{font-size:9px;color:var(--ww-muted);cursor:pointer;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:10px;border:1px solid var(--ww-border);background:none;font-family:var(--font);}
+  .zoom-reset:hover{color:var(--ww-green);border-color:var(--ww-green);}
+  .zoom-wrap{transform-origin:top left;transition:transform 0.2s ease;}
 </style>
 </head>
 <body>
@@ -188,7 +211,7 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
     <!-- ===== TAB 1: INDIVIDUAL ===== -->
     <div id="tab-single" class="tab-panel active">
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
 
         <!-- Tamaño Zebra -->
         <div class="panel">
@@ -253,7 +276,7 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
     <!-- ===== TAB 2: RANGO PDF ===== -->
     <div id="tab-range" class="tab-panel">
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
         <div class="panel">
           <div class="panel-title">Tamaño de etiqueta Zebra</div>
           <div class="zebra-grid" id="zebra-grid-range"></div>
@@ -340,6 +363,15 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
 
   </div>
 </div>
+
+
+  <!-- ZOOM BAR -->
+  <div class="zoom-bar">
+    <button class="zoom-btn" onclick="zoomOut()">−</button>
+    <span class="zoom-label" id="zoom-label">100%</span>
+    <button class="zoom-btn" onclick="zoomIn()">+</button>
+    <button class="zoom-reset" onclick="zoomReset()">Reset</button>
+  </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
@@ -609,9 +641,37 @@ async function generateRangePDF(){
   document.getElementById('progress-fill').style.width='0%';
 }
 
+
+/* ============================================================
+   ZOOM
+============================================================ */
+let zoomLevel = 1.0;
+const ZOOM_STEP = 0.1;
+const ZOOM_MIN = 0.5;
+const ZOOM_MAX = 2.0;
+const ZOOM_KEY = 'wms_label_zoom';
+
+function applyZoom() {
+  document.querySelector('.app').style.transform = `scale(${zoomLevel})`;
+  document.querySelector('.app').style.transformOrigin = 'top left';
+  document.querySelector('.app').style.width = `${Math.round(100 / zoomLevel)}%`;
+  document.getElementById('zoom-label').textContent = Math.round(zoomLevel * 100) + '%';
+  try { localStorage.setItem(ZOOM_KEY, zoomLevel); } catch(e) {}
+}
+
+function zoomIn()    { zoomLevel = Math.min(ZOOM_MAX, Math.round((zoomLevel + ZOOM_STEP) * 10) / 10); applyZoom(); }
+function zoomOut()   { zoomLevel = Math.max(ZOOM_MIN, Math.round((zoomLevel - ZOOM_STEP) * 10) / 10); applyZoom(); }
+function zoomReset() { zoomLevel = 1.0; applyZoom(); }
+
+// Recuperar zoom guardado
+try {
+  const saved = parseFloat(localStorage.getItem(ZOOM_KEY));
+  if (saved && saved >= ZOOM_MIN && saved <= ZOOM_MAX) { zoomLevel = saved; }
+} catch(e) {}
+
 /* INIT */
 renderZebraGrids();
-setTimeout(()=>{update();updateCount();},200);
+setTimeout(()=>{update();updateCount();applyZoom();},200);
 </script>
 </body>
 </html>
