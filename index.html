@@ -424,6 +424,29 @@ function getLabelPx() {
   return {w:Math.round(w*SCALE), h:Math.round(h*SCALE)};
 }
 
+function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }
+
+function getScale(w, h) {
+  const minDim = Math.min(w, h);
+  return {
+    fontCode:    clamp(Math.round(minDim * 0.18), 11, 52),
+    fontLabel:   clamp(Math.round(minDim * 0.055), 6, 13),
+    fontChip:    clamp(Math.round(minDim * 0.05),  5, 11),
+    fontHeader:  clamp(Math.round(minDim * 0.05),  5, 11),
+    fontBarTxt:  clamp(Math.round(minDim * 0.045), 5, 10),
+    pad:         clamp(Math.round(minDim * 0.04),  3, 14),
+    padH:        clamp(Math.round(minDim * 0.035), 2, 12),
+    gap:         clamp(Math.round(minDim * 0.025), 2, 8),
+    stripeH:     clamp(Math.round(minDim * 0.04),  3, 10),
+    headerH:     clamp(Math.round(minDim * 0.12),  14, 32),
+    bcHeight:    clamp(Math.round(h * 0.18),       18, 70),
+    bcWidth:     clamp(Math.round(w * 0.006),       1, 3),
+    qrSize:      clamp(Math.round(minDim * 0.28),  24, 90),
+    radius:      clamp(Math.round(minDim * 0.035), 2, 8),
+    chipRadius:  clamp(Math.round(minDim * 0.02),  2, 5),
+  };
+}
+
 /* ---- render grillas ---- */
 function renderZebraGrids() {
   ['zebra-grid','zebra-grid-range'].forEach(gid=>{
@@ -464,45 +487,45 @@ function switchTab(id,btn){
 ============================================================ */
 function buildLabel(style, code, s1, s2, s3, z) {
   const {w,h} = getLabelPx();
-  const fontSize = Math.max(14, Math.min(38, Math.round(Math.min(w,h)*0.28)));
+  const sc = getScale(w, h);
   const d = document.createElement('div');
-  d.style.cssText = `width:${w}px;height:${h}px;overflow:hidden;position:relative;flex-shrink:0;`;
+  d.style.cssText = `width:${w}px;height:${h}px;overflow:hidden;position:relative;flex-shrink:0;border-radius:${sc.radius}px;`;
 
   if (style==='industrial') {
     d.className='lbl-industrial';
-    d.innerHTML=`<div class="top-stripe" style="background:linear-gradient(90deg,${z.accent},${z.bg});"></div>
-      <div class="hdr" style="background:${z.bg};"><span class="hdr-sub">WMS · Almacén</span><span class="hdr-tag" style="color:${z.accent};">Ubicación Rack</span></div>
-      <div class="body"><div class="loc-block"><div class="loc-lbl">Código de Ubicación</div>
-        <div class="loc-code" style="color:${z.dark};font-size:${fontSize}px;">${code}</div>
-        <div class="chips"><div class="chip"><b style="color:${z.dark}">${s1}</b> Pasillo</div><div class="chip"><b style="color:${z.dark}">${s2}</b> Rack</div><div class="chip"><b style="color:${z.dark}">${s3}</b> Nivel</div></div>
-      </div><div id="qr-el"></div></div>
+    d.innerHTML=`<div class="top-stripe" style="height:${sc.stripeH}px;background:linear-gradient(90deg,${z.accent},${z.bg});"></div>
+      <div class="hdr" style="height:${sc.headerH}px;padding:${sc.pad}px ${sc.padH}px;background:${z.bg};"><span class="hdr-sub" style="font-size:${sc.fontHeader}px;">WMS · Almacén</span><span class="hdr-tag" style="color:${z.accent};font-size:${sc.fontHeader}px;">Ubicación Rack</span></div>
+      <div class="body" style="padding:${sc.pad}px ${sc.padH}px ${Math.max(2,sc.pad-2)}px;gap:${sc.gap}px;"><div class="loc-block"><div class="loc-lbl" style="font-size:${sc.fontLabel}px;margin-bottom:${Math.max(1,Math.round(sc.gap/2))}px;">Código de Ubicación</div>
+        <div class="loc-code" style="color:${z.dark};font-size:${sc.fontCode}px;">${code}</div>
+        <div class="chips" style="gap:${sc.gap}px;margin-top:${Math.max(1,Math.round(sc.gap/1.5))}px;"><div class="chip" style="border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;"><b style="color:${z.dark}">${s1}</b> Pasillo</div><div class="chip" style="border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;"><b style="color:${z.dark}">${s2}</b> Rack</div><div class="chip" style="border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;"><b style="color:${z.dark}">${s3}</b> Nivel</div></div>
+      </div><div id="qr-el" style="width:${sc.qrSize}px;height:${sc.qrSize}px;flex-shrink:0;"></div></div>
       
-      <div class="bc-row"><img id="bc-el"><div class="bc-txt">${code}</div></div>`;
+      <div class="bc-row" style="padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${sc.padH}px ${sc.pad}px;"><img id="bc-el" style="max-width:100%;height:${sc.bcHeight}px;"><div class="bc-txt" style="font-size:${sc.fontBarTxt}px;margin-top:${Math.max(1,Math.round(sc.gap/2))}px;">${code}</div></div>`;
   } else if (style==='bold') {
-    d.className='lbl-bold'; d.style.border=`2px solid ${z.accent}33`;
-    d.innerHTML=`<div class="stripe" style="background:linear-gradient(90deg,${z.accent},${z.bg});"></div>
-      <div class="body"><div class="loc-lbl" style="color:${z.accent};">Ubicación en Rack</div>
-        <div class="loc-code" style="font-size:${fontSize}px;">${code}</div>
-        <div class="chips"><div class="chip" style="border-color:${z.accent}44;"><b>${s1}</b> Pasillo</div><div class="chip" style="border-color:${z.accent}44;"><b>${s2}</b> Rack</div><div class="chip" style="border-color:${z.accent}44;"><b>${s3}</b> Nivel</div></div>
-        
-        <div class="bottom"><div class="bc-wrap"><img id="bc-el"><div class="bc-txt" style="color:${z.accent}88;">${code}</div></div><div id="qr-el"></div></div>
+    d.className='lbl-bold'; d.style.border=`${Math.max(1,sc.bcWidth)}px solid ${z.accent}33`;
+    d.innerHTML=`<div class="stripe" style="height:${sc.stripeH}px;background:linear-gradient(90deg,${z.accent},${z.bg});"></div>
+      <div class="body" style="padding:${sc.pad}px ${sc.padH}px;"><div class="loc-lbl" style="color:${z.accent};font-size:${sc.fontLabel}px;margin-bottom:${Math.max(1,Math.round(sc.gap/2))}px;">Ubicación en Rack</div>
+        <div class="loc-code" style="font-size:${sc.fontCode}px;margin-bottom:${sc.gap}px;">${code}</div>
+        <div class="chips" style="gap:${sc.gap}px;margin-bottom:${Math.max(2,Math.round(sc.gap*0.9))}px;"><div class="chip" style="border-color:${z.accent}44;border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;"><b>${s1}</b> Pasillo</div><div class="chip" style="border-color:${z.accent}44;border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;"><b>${s2}</b> Rack</div><div class="chip" style="border-color:${z.accent}44;border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;"><b>${s3}</b> Nivel</div></div>
+
+        <div class="bottom" style="gap:${sc.gap}px;padding:${sc.pad}px ${sc.padH}px;"><div class="bc-wrap"><img id="bc-el" style="width:100%;height:${sc.bcHeight}px;"><div class="bc-txt" style="color:${z.accent}88;font-size:${sc.fontBarTxt}px;margin-top:${Math.max(1,Math.round(sc.gap/2))}px;">${code}</div></div><div id="qr-el" style="width:${sc.qrSize}px;height:${sc.qrSize}px;flex-shrink:0;"></div></div>
       </div>`;
   } else if (style==='minimal') {
     d.className='lbl-minimal';
-    d.innerHTML=`<div class="top"><div class="accent-bar" style="background:${z.accent};"></div>
-        <div class="top-content"><div><div class="loc-lbl">Ubicación</div><div class="loc-code" style="font-size:${fontSize}px;">${code}</div></div>
-          <div class="meta"><div>Pasillo: <b>${s1}</b></div><div>Rack: <b>${s2}</b></div><div>Nivel: <b>${s3}</b></div><div id="qr-el" style="margin-top:4px;"></div></div>
+    d.innerHTML=`<div class="top"><div class="accent-bar" style="width:${sc.stripeH}px;background:${z.accent};"></div>
+        <div class="top-content" style="padding:${sc.pad}px ${sc.padH}px;gap:${sc.gap}px;"><div><div class="loc-lbl" style="font-size:${sc.fontLabel}px;margin-bottom:${Math.max(1,Math.round(sc.gap/2))}px;">Ubicación</div><div class="loc-code" style="font-size:${sc.fontCode}px;">${code}</div></div>
+          <div class="meta" style="font-size:${sc.fontHeader}px;"><div>Pasillo: <b>${s1}</b></div><div>Rack: <b>${s2}</b></div><div>Nivel: <b>${s3}</b></div><div id="qr-el" style="margin-top:${Math.max(2,Math.round(sc.gap/1.3))}px;width:${sc.qrSize}px;height:${sc.qrSize}px;"></div></div>
         </div></div>
-      <div class="bottom"><div class="bc-wrap"><img id="bc-el"><div class="bc-txt">${code}</div></div></div>`;
+      <div class="bottom" style="padding:${Math.max(2,Math.round(sc.pad/1.5))}px ${sc.padH}px;gap:${sc.gap}px;"><div class="bc-wrap"><img id="bc-el" style="width:100%;height:${sc.bcHeight}px;"><div class="bc-txt" style="font-size:${sc.fontBarTxt}px;margin-top:${Math.max(1,Math.round(sc.gap/2))}px;">${code}</div></div></div>`;
   } else {
-    d.className='lbl-safety'; d.style.border=`3px solid ${z.accent}`;
-    d.innerHTML=`<div class="zone-bar" style="background:${z.bg};"><div class="zone-dot"></div><span class="zone-txt">${z.name}</span></div>
-      <div class="body"><div class="loc-block"><div class="loc-lbl">Código de Ubicación</div>
-        <div class="loc-code" style="color:${z.dark};font-size:${fontSize}px;">${code}</div>
-        <div class="chips"><div class="chip" style="background:${z.dark};">Pasillo: ${s1}</div><div class="chip" style="background:${z.accent};">Rack: ${s2}</div><div class="chip" style="background:${z.bg};">Nivel: ${s3}</div></div>
-      </div><div id="qr-el"></div></div>
-      <div class="bc-row"><img id="bc-el"><div class="bc-txt">${code}</div></div>
-      <div class="bot-line" style="background:${z.accent};"></div>`;
+    d.className='lbl-safety'; d.style.border=`${Math.max(1,sc.bcWidth+1)}px solid ${z.accent}`;
+    d.innerHTML=`<div class="zone-bar" style="height:${sc.headerH}px;padding:${sc.pad}px ${sc.padH}px;background:${z.bg};gap:${sc.gap}px;"><div class="zone-dot" style="width:${Math.max(4,sc.fontLabel)}px;height:${Math.max(4,sc.fontLabel)}px;"></div><span class="zone-txt" style="font-size:${sc.fontHeader}px;">${z.name}</span><span class="ww-badge" style="font-size:${sc.fontHeader}px;">WMS</span></div>
+      <div class="body" style="padding:${sc.pad}px ${sc.padH}px;gap:${sc.gap}px;"><div class="loc-block"><div class="loc-lbl" style="font-size:${sc.fontLabel}px;margin-bottom:${Math.max(1,Math.round(sc.gap/2))}px;">Código de Ubicación</div>
+        <div class="loc-code" style="color:${z.dark};font-size:${sc.fontCode}px;">${code}</div>
+        <div class="chips" style="gap:${sc.gap}px;margin-top:${Math.max(1,Math.round(sc.gap/1.5))}px;"><div class="chip" style="background:${z.dark};border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;">Pasillo: ${s1}</div><div class="chip" style="background:${z.accent};border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;">Rack: ${s2}</div><div class="chip" style="background:${z.bg};border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;">Nivel: ${s3}</div></div>
+      </div><div id="qr-el" style="width:${sc.qrSize}px;height:${sc.qrSize}px;flex-shrink:0;"></div></div>
+      <div class="bc-row" style="padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${sc.padH}px ${sc.pad}px;"><img id="bc-el" style="max-width:100%;height:${sc.bcHeight}px;"><div class="bc-txt" style="font-size:${sc.fontBarTxt}px;margin-top:${Math.max(1,Math.round(sc.gap/2))}px;">${code}</div></div>
+      <div class="bot-line" style="height:${sc.stripeH}px;background:${z.accent};"></div>`;
   }
   return d;
 }
@@ -510,10 +533,24 @@ function buildLabel(style, code, s1, s2, s3, z) {
 function injectAssets(label,code,style){
   return new Promise(resolve=>{
     setTimeout(()=>{
+      const {w,h} = getLabelPx();
+      const sc = getScale(w, h);
       const bcImg=label.querySelector('#bc-el');
-      if(bcImg){const c=document.createElement('canvas');try{JsBarcode(c,code,{format:'CODE128',width:2,height:50,displayValue:false,margin:4,background:'#ffffff'});bcImg.src=c.toDataURL();}catch(e){}}
+      if(bcImg){
+        const c=document.createElement('canvas');
+        try{
+          JsBarcode(c,code,{format:'CODE128',width:sc.bcWidth,height:sc.bcHeight,displayValue:false,margin:Math.max(1,Math.round(sc.pad/2)),background:'#ffffff'});
+          bcImg.src=c.toDataURL();
+          bcImg.style.height=`${sc.bcHeight}px`;
+        }catch(e){}
+      }
       const qrEl=label.querySelector('#qr-el');
-      if(qrEl){qrEl.innerHTML='';const {h}=getLabelPx();const sz=Math.min(52,Math.round(h*0.38));try{new QRCode(qrEl,{text:code,width:sz,height:sz,colorDark:style==='bold'?'#ffffff':'#111111',colorLight:'transparent',correctLevel:QRCode.CorrectLevel.M});}catch(e){}}
+      if(qrEl){
+        qrEl.innerHTML='';
+        try{
+          new QRCode(qrEl,{text:code,width:sc.qrSize,height:sc.qrSize,colorDark:style==='bold'?'#ffffff':'#111111',colorLight:'transparent',correctLevel:QRCode.CorrectLevel.M});
+        }catch(e){}
+      }
       setTimeout(resolve,80);
     },10);
   });
