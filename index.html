@@ -458,6 +458,31 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
+// ============================================================
+//   PROTECCIÓN: solo funciona embebido desde Infor
+// ============================================================
+(function() {
+  const INFOR_DOMAIN = 'mingle-portal.inforcloudsuite.com';
+  const ref = document.referrer || '';
+  const isInfor = ref.includes(INFOR_DOMAIN);
+  const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+  if (!isInfor && !isLocal) {
+    document.body.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:center;height:100vh;
+                  background:#0d0d0d;font-family:Arial,sans-serif;text-align:center;">
+        <div>
+          <div style="font-size:48px;margin-bottom:16px;">🔒</div>
+          <div style="color:#0090D4;font-size:18px;font-weight:900;letter-spacing:2px;
+                      text-transform:uppercase;">Acceso restringido</div>
+          <div style="color:#888;font-size:12px;margin-top:8px;">
+            Esta herramienta solo está disponible desde Infor WMS.
+          </div>
+        </div>
+      </div>`;
+  }
+})();
+
 /* ============================================================
    DATOS
 ============================================================ */
