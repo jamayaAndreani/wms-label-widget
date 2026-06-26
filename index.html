@@ -340,7 +340,7 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
       <div class="preview-wrap"><div id="labelContainer"></div></div>
       <div class="zebra-safe-row">
         <input type="checkbox" id="zs-single" onchange="toggleZebraSafe(this.checked)">
-        <label for="zs-single">🖨️ <b>Modo Zebra-safe (solo negro, sin puntitos)</b> — Aplana colores y fondos a blanco/negro puro. Recomendado para impresoras térmicas Zebra.</label>
+        <label for="zs-single">🖨️ <b>Zebra safe</b></label>
       </div>
       <div class="btn-row">
         <button class="btn btn-outline" style="flex:1" onclick="downloadSinglePNG()">⬇ PNG</button>
@@ -388,9 +388,10 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
           </div>
           <div><div class="sub-title">Nivel — rango</div>
             <div class="row">
-              <div class="field" style="width:70px"><label>Desde</label><input id="r_nivel_from" type="number" value="1" min="1" max="99" oninput="updateCount()"></div>
+              <div class="field" style="width:70px"><label>Desde</label><input id="r_nivel_from" type="number" value="1" min="1" max="999" oninput="updateCount()"></div>
               <div class="sep" style="padding-bottom:6px;">→</div>
-              <div class="field" style="width:70px"><label>Hasta</label><input id="r_nivel_to" type="number" value="5" min="1" max="99" oninput="updateCount()"></div>
+              <div class="field" style="width:70px"><label>Hasta</label><input id="r_nivel_to" type="number" value="5" min="1" max="999" oninput="updateCount()"></div>
+              <div class="field" style="width:70px"><label>Paso</label><input id="r_nivel_step" type="number" value="1" min="1" max="99" oninput="updateCount()"></div>
             </div>
           </div>
           <div><div class="sub-title">Zona</div>
@@ -433,7 +434,7 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
       </div>
       <div class="zebra-safe-row">
         <input type="checkbox" id="zs-range" onchange="toggleZebraSafe(this.checked)">
-        <label for="zs-range">🖨️ <b>Modo Zebra-safe (solo negro, sin puntitos)</b> — Aplana colores y fondos a blanco/negro puro. Recomendado para impresoras térmicas Zebra.</label>
+        <label for="zs-range">🖨️ <b>Zebra safe</b></label>
       </div>
       <button class="btn btn-primary" style="width:100%;font-size:13px;padding:13px;" id="pdf-btn" onclick="generateRangePDF()">
         📄 Generar y Descargar PDF
@@ -731,9 +732,11 @@ function updateCount(){
   const rt=parseInt(document.getElementById('r_rack_to').value)||1;
   const nf=parseInt(document.getElementById('r_nivel_from').value)||1;
   const nt=parseInt(document.getElementById('r_nivel_to').value)||1;
-  const total=Math.max(0,rt-rf+1)*Math.max(0,nt-nf+1);
+  const ns=Math.max(1,parseInt(document.getElementById('r_nivel_step').value)||1);
+  const nCount=Math.max(0,Math.floor((nt-nf)/ns)+1);
+  const total=Math.max(0,rt-rf+1)*nCount;
   document.getElementById('count-display').textContent=total;
-  document.getElementById('range-preview').textContent=`${s1}-${pad(rf,3)}-${pad(nf,2)} → ${s1}-${pad(rt,3)}-${pad(nt,2)}`;
+  document.getElementById('range-preview').textContent=`${s1}-${pad(rf,3)}-${pad(nf,2)} → ${s1}-${pad(rt,3)}-${pad(nt,2)} (paso ${ns})`;
 }
 
 async function generateRangePDF(){
@@ -742,6 +745,7 @@ async function generateRangePDF(){
   const rt=parseInt(document.getElementById('r_rack_to').value)||1;
   const nf=parseInt(document.getElementById('r_nivel_from').value)||1;
   const nt=parseInt(document.getElementById('r_nivel_to').value)||1;
+  const ns=Math.max(1,parseInt(document.getElementById('r_nivel_step').value)||1);
   const zone=document.getElementById('r_zone').value;
   const style=document.getElementById('r_style').value;
   const ppp=parseInt(document.getElementById('r_ppp').value);
@@ -752,7 +756,7 @@ async function generateRangePDF(){
   if(nf>nt){alert('Nivel "Desde" no puede ser mayor que "Hasta".');return;}
 
   const labels=[];
-  for(let r=rf;r<=rt;r++) for(let n=nf;n<=nt;n++) labels.push({s1,s2:pad(r,3),s3:pad(n,2)});
+  for(let r=rf;r<=rt;r++) for(let n=nf;n<=nt;n+=ns) labels.push({s1,s2:pad(r,3),s3:pad(n,2)});
   const total=labels.length;
   if(total>500){alert(`Son ${total} etiquetas. Máximo: 500.`);return;}
   if(total===0){alert('El rango no produce etiquetas.');return;}
