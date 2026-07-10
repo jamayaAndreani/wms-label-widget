@@ -245,6 +245,69 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
     .zebra-grid { grid-template-columns: repeat(3, 1fr); }
   }
 
+  /* ===== DISEÑADOR DE ETIQUETAS ===== */
+  .designer-layout{display:grid;grid-template-columns:1fr 240px;gap:10px;align-items:start;}
+  .designer-layout-3col{grid-template-columns:1fr 1fr 240px;margin-bottom:8px;}
+  .designer-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+  .designer-toolbar .btn{font-size:10px;padding:9px 12px;}
+  .designer-stage-wrap{background:#2a2a2a;border:1px solid var(--ww-border);border-radius:10px;padding:20px;overflow:auto;display:flex;justify-content:center;align-items:center;min-height:220px;}
+  .designer-stage{position:relative;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.6);flex-shrink:0;background-image:linear-gradient(#eee 1px,transparent 1px),linear-gradient(90deg,#eee 1px,transparent 1px);background-size:12.8px 12.8px;}
+  .designer-el{position:absolute;box-sizing:border-box;cursor:move;border:1px dashed transparent;user-select:none;}
+  .designer-el:hover{border-color:#0090D488;}
+  .designer-el.selected{border:1px solid var(--ww-green);box-shadow:0 0 0 2px #0090D433;}
+  .designer-el .del-el-content{width:100%;height:100%;overflow:hidden;pointer-events:none;}
+  .designer-el .var-badge{background:#0090D422;color:#0067a3;border-radius:2px;padding:0 2px;font-weight:900;}
+  .designer-el .resize-handle{position:absolute;right:-4px;bottom:-4px;width:10px;height:10px;background:var(--ww-green);border-radius:2px;cursor:nwse-resize;display:none;}
+  .designer-el.selected .resize-handle{display:block;}
+  .designer-el.type-line{background:#000;cursor:move;}
+  .designer-el.type-qr,.designer-el.type-barcode{display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(45deg,#f4f4f4,#f4f4f4 6px,#fff 6px,#fff 12px);border:1px solid #ccc;}
+  .designer-el .ph-label{font-size:9px;color:#555;text-align:center;padding:2px;font-family:var(--font);line-height:1.3;pointer-events:none;}
+
+  .designer-side-panel{background:var(--ww-dark2);border:1px solid var(--ww-border);border-radius:8px;padding:12px;margin-bottom:10px;}
+  .designer-props-field{margin-bottom:8px;}
+  .designer-props-field label{display:block;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ww-muted);font-weight:600;margin-bottom:3px;}
+  .designer-props-field input[type=text],.designer-props-field input[type=number],.designer-props-field textarea,.designer-props-field select{width:100%;border:1px solid var(--ww-border);border-radius:5px;padding:6px 8px;font-size:12px;background:var(--ww-dark3);color:#fff;outline:none;font-family:var(--font);}
+  .designer-props-field textarea{resize:vertical;min-height:44px;font-family:monospace;}
+  .designer-props-row{display:flex;gap:6px;}
+  .designer-props-row .designer-props-field{flex:1;}
+  .designer-props-field input[type=color]{width:100%;height:28px;border:1px solid var(--ww-border);border-radius:5px;background:var(--ww-dark3);padding:2px;cursor:pointer;}
+  .designer-var-hint{font-size:9px;color:var(--ww-muted);margin-top:-4px;margin-bottom:8px;line-height:1.4;}
+  .designer-var-hint b{color:var(--ww-green);}
+
+  .designer-layers{list-style:none;max-height:160px;overflow-y:auto;}
+  .designer-layers li{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:5px;font-size:11px;cursor:pointer;border:1px solid transparent;}
+  .designer-layers li:hover{background:var(--ww-dark3);}
+  .designer-layers li.active{border-color:var(--ww-green);background:#0090D412;color:var(--ww-green);}
+  .designer-layers li .ly-icon{width:16px;flex-shrink:0;text-align:center;}
+  .designer-layers li .ly-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .designer-layers li .ly-actions{display:flex;gap:2px;}
+  .designer-layers li .ly-actions button{background:none;border:none;color:var(--ww-muted);cursor:pointer;font-size:11px;padding:2px 4px;}
+  .designer-layers li .ly-actions button:hover{color:var(--ww-green);}
+  .designer-empty-hint{font-size:11px;color:var(--ww-muted);padding:8px 2px;}
+
+  .tpl-toolbar{display:flex;gap:6px;position:relative;}
+  .tpl-toolbar select{flex:1;border:1px solid var(--ww-border);border-radius:5px;padding:7px 8px;font-size:12px;background:var(--ww-dark3);color:#fff;font-family:var(--font);}
+  .tpl-actions-btn{font-size:11px;padding:7px 12px;white-space:nowrap;flex-shrink:0;}
+  .tpl-actions-menu{display:none;position:absolute;top:calc(100% + 6px);right:0;min-width:250px;max-width:90vw;background:var(--ww-dark2);border:1px solid var(--ww-border);border-radius:8px;box-shadow:0 10px 28px rgba(0,0,0,.55);padding:6px;z-index:60;}
+  .tpl-actions-menu.open{display:block;}
+  .tpl-actions-menu button{display:block;width:100%;text-align:left;background:none;border:none;color:#fff;padding:9px 10px;border-radius:6px;font-size:12px;cursor:pointer;font-family:var(--font);}
+  .tpl-actions-menu button:hover{background:var(--ww-dark3);}
+  .tpl-actions-menu .tpl-menu-sep{height:1px;background:var(--ww-border);margin:4px 4px;}
+  .tpl-actions-menu .tpl-menu-hint{font-size:9px;color:var(--ww-muted);padding:8px 10px 4px;line-height:1.5;}
+
+  .genvar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:10px;}
+  .batch-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px;}
+  .batch-table th{text-align:left;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ww-muted);padding:4px 6px;border-bottom:1px solid var(--ww-border);}
+  .batch-table td{padding:3px 6px;border-bottom:1px solid var(--ww-border);}
+  .batch-table input{width:100%;border:1px solid var(--ww-border);border-radius:4px;padding:5px 6px;font-size:11px;background:var(--ww-dark3);color:#fff;font-family:monospace;}
+  .batch-table .batch-del{background:none;border:none;color:#ff6b6b;cursor:pointer;font-size:13px;}
+
+  .gen-preview-wrap{background:#2a2a2a;border:1px solid var(--ww-border);border-radius:10px;padding:20px;overflow:auto;display:flex;justify-content:center;align-items:center;min-height:220px;}
+
+  @media (max-width: 900px) {
+    .designer-layout{grid-template-columns:1fr;}
+  }
+
   /* ZOOM CONTROL */
   .zoom-bar{position:fixed;bottom:16px;right:16px;z-index:999;display:flex;align-items:center;gap:6px;background:var(--ww-dark2);border:1px solid var(--ww-border);border-radius:20px;padding:6px 10px;box-shadow:0 6px 16px rgba(0,0,0,.35);}
   .zoom-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--ww-border);background:var(--ww-dark3);color:var(--ww-text);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
@@ -271,13 +334,15 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
     </div>
     <div class="header-divider"></div>
     <div class="header-sub">WMS · Etiquetas de Ubicación</div>
-    
+
   </div>
 
   <div class="inner">
     <div class="tabs">
       <button class="tab active" onclick="switchTab('single',this)">Etiqueta individual</button>
       <button class="tab" onclick="switchTab('range',this)">Rango de etiquetas (PDF)</button>
+      <button class="tab" onclick="switchTab('designer',this)">Diseñador de etiquetas</button>
+      <button class="tab" onclick="switchTab('import',this)">Importar Excel</button>
     </div>
 
     <!-- ===== TAB 1: INDIVIDUAL ===== -->
@@ -442,6 +507,156 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
       </button>
     </div>
 
+    <!-- ===== TAB 3: DISEÑADOR ===== -->
+    <div id="tab-designer" class="tab-panel">
+
+      <!-- Plantillas -->
+      <div class="panel">
+        <div class="panel-title">Plantillas guardadas</div>
+        <div class="tpl-toolbar">
+          <select id="tpl-select" onchange="onTemplateSelectChange()"><option value="">— Sin plantilla (nueva) —</option></select>
+          <button class="btn btn-outline tpl-actions-btn" id="tpl-actions-btn" onclick="toggleTplActionsMenu(event)">☰ Acciones</button>
+          <div class="tpl-actions-menu" id="tpl-actions-menu">
+            <button onclick="closeTplActionsMenu();newTemplate();">🆕 Nueva plantilla</button>
+            <button onclick="closeTplActionsMenu();saveTemplate();">💾 Guardar</button>
+            <button onclick="closeTplActionsMenu();saveTemplateAsCopy();">📑 Guardar copia</button>
+            <button onclick="closeTplActionsMenu();deleteTemplate();">🗑️ Eliminar</button>
+            <div class="tpl-menu-sep"></div>
+            <button onclick="closeTplActionsMenu();exportTemplate();">⬇ Descargar diseño (.zebradesign)</button>
+            <button onclick="closeTplActionsMenu();document.getElementById('tpl-import-input').click();">⬆ Abrir diseño (.zebradesign)</button>
+            <div class="tpl-menu-hint"><b>Guardar</b> lo deja disponible en este navegador. <b>Descargar diseño</b> baja un archivo <b>.zebradesign</b> que podés reabrir después, guardar como respaldo, o pasarle a otra persona para que lo abra con "Abrir diseño".</div>
+          </div>
+        </div>
+        <input type="file" id="tpl-import-input" accept=".zebradesign,application/json" style="display:none" onchange="importTemplate(event)">
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="panel">
+          <div class="panel-title">Tamaño de lienzo</div>
+          <div class="zebra-grid" id="zebra-grid-designer"></div>
+          <div class="designer-props-row" style="margin-top:10px;">
+            <div class="designer-props-field"><label>Ancho personalizado (mm)</label><input type="number" id="d_custom_w" min="10" max="300" step="0.1" value="101.6" oninput="setDesignerCustomSize()"></div>
+            <div class="designer-props-field"><label>Alto personalizado (mm)</label><input type="number" id="d_custom_h" min="10" max="300" step="0.1" value="50.8" oninput="setDesignerCustomSize()"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Orientación</div>
+          <div class="orient-row">
+            <button class="orient-btn active" id="orient-h-d" onclick="setDesignerOrient('h')">
+              <span class="orient-icon">⬜</span>
+              <div class="orient-label">Horizontal</div>
+              <div class="orient-hint">Ancho &gt; Alto</div>
+            </button>
+            <button class="orient-btn" id="orient-v-d" onclick="setDesignerOrient('v')">
+              <span class="orient-icon">▭</span>
+              <div class="orient-label">Vertical</div>
+              <div class="orient-hint">Alto &gt; Ancho</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="designer-toolbar">
+        <button class="btn btn-outline" onclick="addDesignerElement('text')">🔤 Texto</button>
+        <button class="btn btn-outline" onclick="addDesignerElement('barcode')">▮▯ Código de barras</button>
+        <button class="btn btn-outline" onclick="addDesignerElement('qr')">▦ QR</button>
+        <button class="btn btn-outline" onclick="addDesignerElement('line')">➖ Línea divisoria</button>
+      </div>
+
+      <div class="designer-layout designer-layout-3col">
+        <div>
+          <div class="sub-title">Lienzo</div>
+          <div class="designer-stage-wrap">
+            <div class="designer-stage" id="designer-stage"></div>
+          </div>
+        </div>
+        <div>
+          <div class="sub-title">Vista previa</div>
+          <div class="gen-preview-wrap"><div id="designerPreviewContainer"></div></div>
+        </div>
+        <div>
+          <div class="designer-side-panel" id="designer-props">
+            <div class="panel-title">Propiedades</div>
+            <div style="color:var(--ww-muted);font-size:11px;">Seleccioná un elemento del lienzo</div>
+          </div>
+          <div class="designer-side-panel">
+            <div class="panel-title">Capas</div>
+            <ul class="designer-layers" id="designer-layers"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="designer-empty-hint" id="designer-hint">Usá los botones de arriba para agregar elementos y arrastralos dentro del lienzo para ubicarlos (la manija verde de la esquina redimensiona). El lienzo y la vista previa ya muestran el código de barras y el QR reales, con datos de ejemplo en lugar de las variables — al generar la etiqueta se reemplazan por los valores verdaderos.</div>
+
+      <div class="divider"></div>
+
+      <!-- Generación desde plantilla -->
+      <div class="panel">
+        <div class="panel-title">Generar etiqueta desde esta plantilla</div>
+        <div id="genvar-empty-hint" class="designer-empty-hint" style="display:none;">Esta plantilla no tiene variables dinámicas ({{variable}}). Agregá texto, código de barras o QR con contenido tipo <b>{{codigo}}</b> para poder completarlo acá.</div>
+        <div class="genvar-grid" id="genvar-grid"></div>
+        <div class="zebra-safe-row">
+          <input type="checkbox" id="zs-designer" onchange="toggleZebraSafe(this.checked)">
+          <label for="zs-designer">🖨️ <b>Zebra safe</b></label>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" style="flex:1" onclick="saveDesignerLabel()">💾 Guardar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB 4: IMPORTAR EXCEL ===== -->
+    <div id="tab-import" class="tab-panel">
+
+      <div class="panel">
+        <div class="panel-title">1. Elegí la plantilla</div>
+        <div class="tpl-toolbar" style="position:static;">
+          <select id="import-tpl-select" onchange="onImportTemplateChange()"><option value="">— Elegí una plantilla guardada —</option></select>
+        </div>
+        <div style="font-size:9px;color:var(--ww-muted);margin-top:8px;line-height:1.5;">
+          Tiene que ser una plantilla creada en <b>Diseñador de etiquetas</b> con al menos una variable <b>{{nombre}}</b>.
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">2. Subí el Excel</div>
+        <div style="font-size:9px;color:var(--ww-muted);margin-bottom:8px;line-height:1.5;">
+          La primera fila del archivo tiene que tener los nombres de columna, iguales a los nombres de variable de la plantilla (sin las llaves <b>{{ }}</b>). Una etiqueta por cada fila de datos.
+        </div>
+        <input type="file" id="import-file-input" accept=".xlsx,.xls,.csv" onchange="onImportFileChange(event)">
+      </div>
+
+      <div class="panel" id="import-status-panel" style="display:none;">
+        <div class="panel-title">3. Verificación</div>
+        <div id="import-status-body"></div>
+      </div>
+
+      <div class="panel" id="import-generate-panel" style="display:none;">
+        <div class="panel-title">4. Generar</div>
+        <div class="zebra-safe-row">
+          <input type="checkbox" id="zs-import" onchange="toggleZebraSafe(this.checked)">
+          <label for="zs-import">🖨️ <b>Zebra safe</b></label>
+        </div>
+        <div class="row" style="align-items:flex-end;gap:10px;margin-bottom:10px;">
+          <div class="field" style="width:160px"><label>Por página</label>
+            <select id="imp_ppp">
+              <option value="1">1 (grande)</option>
+              <option value="2" selected>2 (media)</option>
+              <option value="4">4 (chica)</option>
+              <option value="6">6 (mini)</option>
+            </select>
+          </div>
+        </div>
+        <div class="progress-wrap" id="progress-wrap-imp">
+          <div class="progress-label">Generando PDF... <span id="progress-text-imp">0 / 0</span></div>
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill-imp"></div></div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;font-size:13px;padding:13px;" id="import-pdf-btn" onclick="generateImportPDF()" disabled>
+          📄 Generar PDF
+        </button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -458,11 +673,15 @@ html,body{font-family:var(--font);background:var(--ww-dark);color:var(--ww-text)
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 // ============================================================
 //   PROTECCIÓN: solo funciona embebido desde Infor
+//   (DESACTIVADA TEMPORALMENTE PARA PRUEBAS — descomentar el
+//    bloque de abajo y borrar el "return" para reactivarla)
 // ============================================================
 (function() {
+  return; // <-- quitar esta línea para volver a activar la restricción
   const INFOR_DOMAIN = 'mingle-portal.inforcloudsuite.com';
   const ref = document.referrer || '';
   const isInfor = ref.includes(INFOR_DOMAIN);
@@ -512,6 +731,8 @@ const zones = {
   purple:{bg:'#3a1a7a',accent:'#9a5aff',dark:'#220d4a',name:'Zona Morada'},
   yellow:{bg:'#5a4800',accent:'#ffd600',dark:'#3a2e00',name:'Zona Amarilla'},
 };
+
+const DESIGNER_SCALE = 3.2; // px por mm, mismo factor que las etiquetas de los tabs 1 y 2
 
 /* ---- helpers ---- */
 function getZebra() { return ZEBRA_SIZES.find(s=>s.id===selectedZebraId)||ZEBRA_SIZES[3]; }
@@ -587,6 +808,7 @@ function switchTab(id,btn){
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
+  if(id==='import') refreshImportTemplateSelect();
 }
 
 /* ============================================================
@@ -606,7 +828,7 @@ function buildLabel(style, code, s1, s2, s3, z) {
         <div class="loc-code" style="color:${z.dark};font-size:${sc.fontCode}px;">${code}</div>
         <div class="chips" style="gap:${sc.gap}px;margin-top:${Math.max(1,Math.round(sc.gap/1.5))}px;"><div class="chip" style="background:${z.accent};border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;">P: ${s1}</div><div class="chip" style="background:${z.bg};color:#fff;border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;">R: ${s2}</div><div class="chip" style="background:#e9e9e9;border-radius:${sc.chipRadius}px;padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${Math.max(2,Math.round(sc.padH/1.5))}px;font-size:${sc.fontChip}px;">N: ${s3}</div></div>
       </div><div id="qr-el" style="width:${sc.qrSize}px;height:${sc.qrSize}px;flex-shrink:0;"></div></div>
-      
+
       <div class="bc-row" style="padding:${Math.max(1,Math.round(sc.pad/2.2))}px ${sc.padH}px ${sc.pad}px;"><img id="bc-el" style="max-width:100%;height:${sc.bcHeight}px;"><div class="bc-txt" style="font-size:${sc.fontBarTxt}px;margin-top:${Math.max(1,Math.round(sc.gap/2))}px;">${code}</div></div>`;
   } else if (style==='bold') {
     d.className='lbl-bold'; d.style.border=`${Math.max(1,sc.bcWidth)}px solid ${z.accent}33`;
@@ -677,6 +899,8 @@ function toggleZebraSafe(on){
   zebraSafe=on;
   document.getElementById('zs-single').checked=on;
   document.getElementById('zs-range').checked=on;
+  const zsd=document.getElementById('zs-designer'); if(zsd) zsd.checked=on;
+  const zsi=document.getElementById('zs-import'); if(zsi) zsi.checked=on;
   document.body.classList.toggle('zebra-safe',on);
   update();
 }
@@ -836,6 +1060,955 @@ async function generateRangePDF(){
 
 
 /* ============================================================
+   TAB 3 — DISEÑADOR DE ETIQUETAS
+============================================================ */
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+let designerElements   = [];
+let selectedElementId  = null;
+let elIdCounter         = 0;
+let designerZebraId     = 'z4';
+let designerCustom      = false;
+let designerOrientation = 'h';
+let dragCtx              = null;
+let genVarValues        = {};
+let batchRows           = [];
+let currentTemplateId   = null;
+const TEMPLATES_KEY     = 'ww_label_templates';
+
+function newElId(){ return 'el'+(++elIdCounter)+'_'+Math.random().toString(36).slice(2,7); }
+
+function substituteVars(str, values, fallbackSample){
+  if(!str) return '';
+  return String(str).replace(/\{\{(\w+)\}\}/g, (m,name)=>{
+    if(values && values[name]) return values[name];
+    if(fallbackSample) return sampleValueFor(name);
+    return '';
+  });
+}
+
+function extractVariablesFromElements(elements){
+  const vars=[]; const seen=new Set();
+  (elements||[]).forEach(el=>{
+    const src = el.type==='text' ? el.content : (el.type==='barcode'||el.type==='qr') ? el.value : '';
+    if(!src) return;
+    const matches=[...String(src).matchAll(/\{\{(\w+)\}\}/g)];
+    matches.forEach(m=>{ if(!seen.has(m[1])){ seen.add(m[1]); vars.push(m[1]); } });
+  });
+  return vars;
+}
+function extractTemplateVariables(){
+  return extractVariablesFromElements(designerElements);
+}
+
+/* ---- tamaño / orientación del lienzo ---- */
+function getDesignerBaseSize(){
+  if(designerCustom){
+    const w=parseFloat(document.getElementById('d_custom_w').value)||101.6;
+    const h=parseFloat(document.getElementById('d_custom_h').value)||50.8;
+    return {w,h};
+  }
+  const sz=ZEBRA_SIZES.find(s=>s.id===designerZebraId)||ZEBRA_SIZES[3];
+  return {w:sz.w,h:sz.h};
+}
+
+function getDesignerDims(){
+  let {w,h}=getDesignerBaseSize();
+  if(designerOrientation==='v' && w>h){ [w,h]=[h,w]; }
+  if(designerOrientation==='h' && h>w){ [w,h]=[h,w]; }
+  return {w,h};
+}
+
+function renderDesignerZebraGrid(){
+  const g=document.getElementById('zebra-grid-designer'); if(!g) return;
+  g.innerHTML='';
+  ZEBRA_SIZES.forEach(sz=>{
+    const btn=document.createElement('button');
+    btn.className='zebra-btn'+((!designerCustom && sz.id===designerZebraId)?' active':'');
+    btn.innerHTML=`<div class="zb-size">${sz.label}</div><div class="zb-mm">${sz.w}×${sz.h}mm</div><div class="zb-use">${sz.desc}</div>`;
+    btn.onclick=()=>{
+      designerZebraId=sz.id; designerCustom=false;
+      document.getElementById('d_custom_w').value=sz.w;
+      document.getElementById('d_custom_h').value=sz.h;
+      renderDesignerZebraGrid(); renderDesignerStage();
+    };
+    g.appendChild(btn);
+  });
+}
+
+function setDesignerCustomSize(){ designerCustom=true; renderDesignerZebraGrid(); renderDesignerStage(); }
+
+function setDesignerOrient(o){
+  designerOrientation=o;
+  ['orient-h-d','orient-v-d'].forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    el.classList.toggle('active',(id.includes('-v')?o==='v':o==='h'));
+  });
+  renderDesignerStage();
+}
+
+/* ---- elementos ---- */
+function addDesignerElement(type){
+  const {w:cw,h:ch}=getDesignerDims();
+  const id=newElId();
+  let el;
+  if(type==='text'){
+    el={id,type,x:round1(cw*0.08),y:round1(ch*0.08),w:round1(Math.min(cw*0.6,cw)),h:round1(Math.min(ch*0.3,ch)),content:'{{codigo}}',fontSize:14,color:'#000000',bold:true,align:'left'};
+  } else if(type==='barcode'){
+    el={id,type,x:round1(cw*0.08),y:round1(ch*0.55),w:round1(Math.min(cw*0.84,cw)),h:round1(Math.min(ch*0.28,ch)),value:'{{codigo}}',showText:true};
+  } else if(type==='qr'){
+    const s=round1(Math.min(cw*0.28,ch*0.6));
+    el={id,type,x:round1(cw-s-2),y:round1(2),w:s,h:s,value:'{{codigo}}'};
+  } else {
+    el={id,type,x:0,y:round1(ch*0.5),w:round1(cw),h:0.5,color:'#000000'};
+  }
+  el.w=clamp(el.w,el.type==='line'?0.2:2,cw);
+  el.h=clamp(el.h,el.type==='line'?0.2:2,ch);
+  el.x=clamp(el.x,0,Math.max(0,cw-el.w));
+  el.y=clamp(el.y,0,Math.max(0,ch-el.h));
+  designerElements.push(el);
+  selectedElementId=id;
+  renderDesignerAll();
+}
+
+function round1(n){ return Math.round(n*10)/10; }
+
+function deleteDesignerElement(id){
+  designerElements=designerElements.filter(e=>e.id!==id);
+  if(selectedElementId===id) selectedElementId=null;
+  delete barcodeCache[id]; delete qrCache[id];
+  renderDesignerAll();
+}
+
+function moveDesignerLayer(id,dir){
+  const idx=designerElements.findIndex(e=>e.id===id); if(idx<0) return;
+  const newIdx=idx+dir;
+  if(newIdx<0||newIdx>=designerElements.length) return;
+  const tmp=designerElements[idx]; designerElements[idx]=designerElements[newIdx]; designerElements[newIdx]=tmp;
+  renderDesignerStage(); renderDesignerLayers();
+}
+
+function selectDesignerElement(id){
+  selectedElementId=id;
+  renderDesignerStage(); renderDesignerLayers(); renderDesignerProps();
+}
+
+function insertVarPrompt(id,prop){
+  const name=prompt('Nombre de la variable (sin espacios ni símbolos):','codigo');
+  if(!name) return;
+  const clean=name.trim().replace(/[^a-zA-Z0-9_]/g,'');
+  if(!clean) return;
+  const el=designerElements.find(e=>e.id===id); if(!el) return;
+  el[prop]=(el[prop]||'')+'{{'+clean+'}}';
+  renderDesignerStage(); renderDesignerProps(); renderGenVarInputs(); renderBatchTable();
+}
+
+let designerAuxRefreshTimer=null;
+function scheduleDesignerAuxRefresh(){
+  clearTimeout(designerAuxRefreshTimer);
+  designerAuxRefreshTimer=setTimeout(()=>{ renderGenVarInputs(); renderBatchTable(); },150);
+}
+
+function updateDesignerElProp(id,prop,value,isNumber){
+  const el=designerElements.find(e=>e.id===id); if(!el) return;
+  if(isNumber){ value=parseFloat(value); if(isNaN(value)) value=0; }
+  el[prop]=value;
+  if(prop==='x'||prop==='y'||prop==='w'||prop==='h'){
+    const {w:cw,h:ch}=getDesignerDims();
+    el.w=clamp(el.w,el.type==='line'?0.2:2,cw);
+    el.h=clamp(el.h,el.type==='line'?0.2:2,ch);
+    el.x=clamp(el.x,0,Math.max(0,cw-el.w));
+    el.y=clamp(el.y,0,Math.max(0,ch-el.h));
+  }
+  renderDesignerStage(); renderDesignerLayers();
+  // debounced: evita reconstruir la vista previa (con barcode/QR) en cada
+  // evento 'input' — un color picker o slider puede disparar decenas por segundo
+  // y sin este límite eso trababa el navegador.
+  scheduleDesignerAuxRefresh();
+}
+
+/* ---- drag & resize ---- */
+function startDesignerDrag(e,el){
+  e.preventDefault(); e.stopPropagation();
+  selectDesignerElement(el.id);
+  dragCtx={mode:'move',el,startClientX:e.clientX,startClientY:e.clientY,startX:el.x,startY:el.y};
+  document.addEventListener('pointermove',onDesignerPointerMove);
+  document.addEventListener('pointerup',onDesignerPointerUp);
+}
+function startDesignerResize(e,el){
+  e.preventDefault(); e.stopPropagation();
+  selectDesignerElement(el.id);
+  dragCtx={mode:'resize',el,startClientX:e.clientX,startClientY:e.clientY,startW:el.w,startH:el.h};
+  document.addEventListener('pointermove',onDesignerPointerMove);
+  document.addEventListener('pointerup',onDesignerPointerUp);
+}
+function onDesignerPointerMove(e){
+  if(!dragCtx) return;
+  const z=(typeof zoomLevel!=='undefined'&&zoomLevel)?zoomLevel:1;
+  const dxMm=((e.clientX-dragCtx.startClientX)/z)/DESIGNER_SCALE;
+  const dyMm=((e.clientY-dragCtx.startClientY)/z)/DESIGNER_SCALE;
+  const {w:cw,h:ch}=getDesignerDims();
+  const el=dragCtx.el;
+  if(dragCtx.mode==='move'){
+    el.x=clamp(dragCtx.startX+dxMm,0,Math.max(0,cw-el.w));
+    el.y=clamp(dragCtx.startY+dyMm,0,Math.max(0,ch-el.h));
+  } else {
+    el.w=clamp(dragCtx.startW+dxMm,el.type==='line'?0.2:2,cw-el.x);
+    el.h=clamp(dragCtx.startH+dyMm,el.type==='line'?0.2:2,ch-el.y);
+  }
+  renderDesignerStage();
+  schedulePreviewUpdate();
+}
+function onDesignerPointerUp(){
+  dragCtx=null;
+  document.removeEventListener('pointermove',onDesignerPointerMove);
+  document.removeEventListener('pointerup',onDesignerPointerUp);
+  renderDesignerLayers(); renderDesignerProps();
+  schedulePreviewUpdate();
+}
+
+/* ---- render lienzo (modo edición, placeholders) ---- */
+function renderDesignerStage(){
+  const stage=document.getElementById('designer-stage'); if(!stage) return;
+  const {w,h}=getDesignerDims();
+  const SCALE=DESIGNER_SCALE;
+  stage.style.width=Math.round(w*SCALE)+'px';
+  stage.style.height=Math.round(h*SCALE)+'px';
+  stage.innerHTML='';
+  designerElements.forEach(el=>{
+    const d=document.createElement('div');
+    d.className='designer-el type-'+el.type+(el.id===selectedElementId?' selected':'');
+    d.style.left=Math.round(el.x*SCALE)+'px';
+    d.style.top=Math.round(el.y*SCALE)+'px';
+    d.style.width=Math.round(el.w*SCALE)+'px';
+    d.style.height=Math.round(el.h*SCALE)+'px';
+    d.dataset.id=el.id;
+    if(el.type==='text'){
+      const inner=document.createElement('div');
+      inner.className='del-el-content';
+      inner.style.fontFamily='Arial,sans-serif';
+      inner.style.fontSize=(el.fontSize||14)+'px';
+      inner.style.color=el.color||'#000';
+      inner.style.fontWeight=el.bold?'900':'400';
+      inner.style.textAlign=el.align||'left';
+      inner.style.whiteSpace='pre-wrap';
+      inner.style.wordBreak='break-word';
+      inner.style.lineHeight='1.15';
+      inner.style.background='#fff';
+      inner.innerHTML=previewTextHTML(el.content||'');
+      d.appendChild(inner);
+    } else if(el.type==='line'){
+      d.style.background=el.color||'#000';
+    } else if(el.type==='barcode'){
+      renderLiveBarcode(d, el);
+    } else if(el.type==='qr'){
+      renderLiveQR(d, el);
+    }
+    const handle=document.createElement('div'); handle.className='resize-handle';
+    handle.addEventListener('pointerdown',(e)=>startDesignerResize(e,el));
+    d.appendChild(handle);
+    d.addEventListener('pointerdown',(e)=>{ if(e.target.classList.contains('resize-handle')) return; startDesignerDrag(e,el); });
+    stage.appendChild(d);
+  });
+}
+
+function renderDesignerLayers(){
+  const ul=document.getElementById('designer-layers'); if(!ul) return;
+  if(designerElements.length===0){ ul.innerHTML='<li style="cursor:default;color:var(--ww-muted);">Sin elementos</li>'; return; }
+  const icons={text:'🔤',barcode:'▮▯',qr:'▦',line:'➖'};
+  ul.innerHTML=designerElements.map(el=>{
+    const label = el.type==='text' ? (el.content||'(vacío)') : el.type==='line' ? 'Línea divisoria' : (el.value||'(vacío)');
+    return `<li class="${el.id===selectedElementId?'active':''}" onclick="selectDesignerElement('${el.id}')">
+      <span class="ly-icon">${icons[el.type]||'?'}</span>
+      <span class="ly-name">${escapeHtml(label)}</span>
+      <span class="ly-actions">
+        <button onclick="event.stopPropagation();moveDesignerLayer('${el.id}',1)" title="Traer al frente">▲</button>
+        <button onclick="event.stopPropagation();moveDesignerLayer('${el.id}',-1)" title="Enviar atrás">▼</button>
+        <button onclick="event.stopPropagation();deleteDesignerElement('${el.id}')" title="Eliminar">🗑</button>
+      </span>
+    </li>`;
+  }).join('');
+}
+
+function renderDesignerProps(){
+  const panel=document.getElementById('designer-props'); if(!panel) return;
+  const el=designerElements.find(e=>e.id===selectedElementId);
+  if(!el){ panel.innerHTML='<div class="panel-title">Propiedades</div><div style="color:var(--ww-muted);font-size:11px;">Seleccioná un elemento del lienzo</div>'; return; }
+  let typeFields='';
+  if(el.type==='text'){
+    typeFields=`
+      <div class="designer-props-field"><label>Contenido</label><textarea oninput="updateDesignerElProp('${el.id}','content',this.value)">${escapeHtml(el.content||'')}</textarea></div>
+      <button class="btn btn-outline" style="width:100%;margin-bottom:8px;font-size:9px;" onclick="insertVarPrompt('${el.id}','content')">＋ Insertar variable</button>
+      <div class="designer-props-row">
+        <div class="designer-props-field"><label>Tamaño fuente</label><input type="number" min="6" max="120" value="${el.fontSize||14}" oninput="updateDesignerElProp('${el.id}','fontSize',this.value,true)"></div>
+        <div class="designer-props-field"><label>Color</label><input type="color" value="${el.color||'#000000'}" oninput="updateDesignerElProp('${el.id}','color',this.value)"></div>
+      </div>
+      <div class="designer-props-row">
+        <div class="designer-props-field"><label>Alineación</label>
+          <select onchange="updateDesignerElProp('${el.id}','align',this.value)">
+            <option value="left" ${el.align==='left'?'selected':''}>Izquierda</option>
+            <option value="center" ${el.align==='center'?'selected':''}>Centro</option>
+            <option value="right" ${el.align==='right'?'selected':''}>Derecha</option>
+          </select>
+        </div>
+        <div class="designer-props-field"><label>Negrita</label>
+          <select onchange="updateDesignerElProp('${el.id}','bold',this.value==='1')">
+            <option value="1" ${el.bold?'selected':''}>Sí</option>
+            <option value="0" ${!el.bold?'selected':''}>No</option>
+          </select>
+        </div>
+      </div>`;
+  } else if(el.type==='barcode'){
+    typeFields=`
+      <div class="designer-props-field"><label>Valor (código de barras)</label><input type="text" value="${escapeHtml(el.value||'')}" oninput="updateDesignerElProp('${el.id}','value',this.value)"></div>
+      <button class="btn btn-outline" style="width:100%;margin-bottom:8px;font-size:9px;" onclick="insertVarPrompt('${el.id}','value')">＋ Insertar variable</button>
+      <div class="designer-props-field"><label>Mostrar texto debajo</label>
+        <select onchange="updateDesignerElProp('${el.id}','showText',this.value==='1')">
+          <option value="1" ${el.showText?'selected':''}>Sí</option>
+          <option value="0" ${!el.showText?'selected':''}>No</option>
+        </select>
+      </div>`;
+  } else if(el.type==='qr'){
+    typeFields=`
+      <div class="designer-props-field"><label>Valor (QR)</label><input type="text" value="${escapeHtml(el.value||'')}" oninput="updateDesignerElProp('${el.id}','value',this.value)"></div>
+      <button class="btn btn-outline" style="width:100%;margin-bottom:8px;font-size:9px;" onclick="insertVarPrompt('${el.id}','value')">＋ Insertar variable</button>`;
+  } else if(el.type==='line'){
+    typeFields=`<div class="designer-props-field"><label>Color</label><input type="color" value="${el.color||'#000000'}" oninput="updateDesignerElProp('${el.id}','color',this.value)"></div>`;
+  }
+  panel.innerHTML=`
+    <div class="panel-title">Propiedades — ${el.type}</div>
+    <div class="designer-props-row">
+      <div class="designer-props-field"><label>X (mm)</label><input type="number" step="0.5" value="${el.x.toFixed(1)}" oninput="updateDesignerElProp('${el.id}','x',this.value,true)"></div>
+      <div class="designer-props-field"><label>Y (mm)</label><input type="number" step="0.5" value="${el.y.toFixed(1)}" oninput="updateDesignerElProp('${el.id}','y',this.value,true)"></div>
+    </div>
+    <div class="designer-props-row">
+      <div class="designer-props-field"><label>Ancho (mm)</label><input type="number" step="0.5" value="${el.w.toFixed(1)}" oninput="updateDesignerElProp('${el.id}','w',this.value,true)"></div>
+      <div class="designer-props-field"><label>Alto (mm)</label><input type="number" step="0.5" value="${el.h.toFixed(1)}" oninput="updateDesignerElProp('${el.id}','h',this.value,true)"></div>
+    </div>
+    ${typeFields}
+    <div class="designer-var-hint">Usá <b>{{nombre}}</b> dentro del texto o valor para marcar una variable dinámica que se completa al generar la etiqueta.</div>
+    <button class="btn btn-outline" style="width:100%;color:#ff6b6b;border-color:#ff6b6b;" onclick="deleteDesignerElement('${el.id}')">🗑 Eliminar elemento</button>
+  `;
+}
+
+function renderDesignerAll(){
+  renderDesignerStage(); renderDesignerLayers(); renderDesignerProps(); renderGenVarInputs(); renderBatchTable();
+}
+
+/* ---- vista previa en vivo (datos de ejemplo automáticos) ---- */
+const SAMPLE_MAP = {
+  codigo:'AII-002-10', code:'AII-002-10', ubicacion:'AII-002-10', location:'AII-002-10',
+  pasillo:'AII', aisle:'AII', rack:'002', nivel:'10', level:'10',
+  zona:'Azul', zone:'Azul', fecha:new Date().toLocaleDateString('es-AR'), date:new Date().toLocaleDateString('es-AR'),
+  lote:'L-2026-001', lot:'L-2026-001', sku:'SKU-12345', producto:'PRODUCTO X', product:'PRODUCTO X',
+  cantidad:'24', qty:'24', peso:'12.5 KG', precio:'$ 1.250', price:'$ 1.250',
+};
+function sampleValueFor(varName){
+  const key=varName.toLowerCase();
+  if(SAMPLE_MAP[key]) return SAMPLE_MAP[key];
+  return varName.toUpperCase();
+}
+function substitutePreview(str){
+  if(!str) return '';
+  return String(str).replace(/\{\{(\w+)\}\}/g,(m,name)=>sampleValueFor(name));
+}
+function previewTextHTML(content){
+  return escapeHtml(content).replace(/\{\{(\w+)\}\}/g,(m,name)=>'<span class="var-badge">'+escapeHtml(sampleValueFor(name))+'</span>');
+}
+
+const barcodeCache={}, qrCache={};
+function clearLivePreviewCaches(){ Object.keys(barcodeCache).forEach(k=>delete barcodeCache[k]); Object.keys(qrCache).forEach(k=>delete qrCache[k]); }
+
+function renderLiveBarcode(container, el){
+  const value=substitutePreview(el.value)||' ';
+  let entry=barcodeCache[el.id];
+  if(!entry||entry.value!==value){
+    const c=document.createElement('canvas');
+    try{
+      JsBarcode(c,value,{format:'CODE128',displayValue:!!el.showText,fontSize:10,margin:2,background:'#FFFFFF',lineColor:'#000000'});
+      entry={value,src:c.toDataURL()};
+    }catch(e){ entry={value,src:null}; }
+    barcodeCache[el.id]=entry;
+  }
+  if(entry.src){
+    const img=document.createElement('img');
+    img.src=entry.src; img.style.width='100%'; img.style.height='100%'; img.style.objectFit='contain'; img.style.background='#fff';
+    container.appendChild(img);
+  } else {
+    const ph=document.createElement('div'); ph.className='ph-label'; ph.textContent='▮▯ '+value;
+    container.appendChild(ph);
+  }
+}
+
+function renderLiveQR(container, el){
+  const value=substitutePreview(el.value)||' ';
+  const size=Math.max(10,Math.round(Math.min(el.w,el.h)*DESIGNER_SCALE));
+  let entry=qrCache[el.id];
+  if(!entry||entry.value!==value||entry.size!==size){
+    const tmp=document.createElement('div');
+    let src=null;
+    try{
+      new QRCode(tmp,{text:value,width:size,height:size,colorDark:'#000000',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.M});
+      const canvasEl=tmp.querySelector('canvas'), imgEl=tmp.querySelector('img');
+      src = canvasEl ? canvasEl.toDataURL() : (imgEl ? imgEl.src : null);
+    }catch(e){}
+    entry={value,size,src};
+    qrCache[el.id]=entry;
+  }
+  if(entry.src){
+    const img=document.createElement('img');
+    img.src=entry.src; img.style.width='100%'; img.style.height='100%'; img.style.background='#fff';
+    container.appendChild(img);
+  } else {
+    const ph=document.createElement('div'); ph.className='ph-label'; ph.textContent='▦ QR '+value;
+    container.appendChild(ph);
+  }
+}
+
+/* ---- generación real (barcode/QR verdaderos) ---- */
+function buildDesignerLabelDOM(values, fallbackSample){
+  const {w,h}=getDesignerDims();
+  const SCALE=DESIGNER_SCALE;
+  const wrap=document.createElement('div');
+  wrap.style.cssText=`position:relative;width:${Math.round(w*SCALE)}px;height:${Math.round(h*SCALE)}px;background:#ffffff;overflow:hidden;`;
+  designerElements.forEach(el=>{
+    const sub=document.createElement('div');
+    sub.style.position='absolute';
+    sub.style.left=Math.round(el.x*SCALE)+'px';
+    sub.style.top=Math.round(el.y*SCALE)+'px';
+    sub.style.width=Math.round(el.w*SCALE)+'px';
+    sub.style.height=Math.round(el.h*SCALE)+'px';
+    sub.style.boxSizing='border-box';
+    if(el.type==='text'){
+      sub.style.fontFamily='Arial,sans-serif';
+      sub.style.fontSize=(el.fontSize||14)+'px';
+      sub.style.color=el.color||'#000000';
+      sub.style.fontWeight=el.bold?'900':'400';
+      sub.style.textAlign=el.align||'left';
+      sub.style.overflow='hidden';
+      sub.style.whiteSpace='pre-wrap';
+      sub.style.lineHeight='1.15';
+      sub.style.wordBreak='break-word';
+      sub.textContent=substituteVars(el.content,values,fallbackSample);
+    } else if(el.type==='line'){
+      sub.style.background=el.color||'#000000';
+    } else if(el.type==='barcode'){
+      const code=substituteVars(el.value,values,fallbackSample)||' ';
+      const img=document.createElement('img');
+      img.style.width='100%'; img.style.height='100%'; img.style.objectFit='contain';
+      const c=document.createElement('canvas');
+      try{
+        JsBarcode(c,code,{format:'CODE128',displayValue:!!el.showText,fontSize:Math.max(8,Math.round(el.h*SCALE*0.15)),margin:2,background:'#FFFFFF',lineColor:'#000000'});
+        img.src=c.toDataURL();
+      }catch(e){}
+      sub.appendChild(img);
+    } else if(el.type==='qr'){
+      const code=substituteVars(el.value,values,fallbackSample)||' ';
+      const qWrap=document.createElement('div');
+      qWrap.style.width='100%'; qWrap.style.height='100%'; qWrap.style.background='#fff';
+      try{
+        new QRCode(qWrap,{text:code,width:Math.round(el.w*SCALE),height:Math.round(el.h*SCALE),colorDark:'#000000',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.M});
+      }catch(e){}
+      sub.appendChild(qWrap);
+    }
+    wrap.appendChild(sub);
+  });
+  return wrap;
+}
+
+/* ---- versión "standalone" para generar desde una plantilla guardada (no toca el editor abierto) ---- */
+function getDimsForTemplate(tpl){
+  let w=tpl.canvasW||101.6, h=tpl.canvasH||50.8;
+  const o=tpl.orientation||'h';
+  if(o==='v' && w>h){ [w,h]=[h,w]; }
+  if(o==='h' && h>w){ [w,h]=[h,w]; }
+  return {w,h};
+}
+
+function buildLabelDOMFromTemplate(tpl, values, fallbackSample){
+  const {w,h}=getDimsForTemplate(tpl);
+  const SCALE=DESIGNER_SCALE;
+  const wrap=document.createElement('div');
+  wrap.style.cssText=`position:relative;width:${Math.round(w*SCALE)}px;height:${Math.round(h*SCALE)}px;background:#ffffff;overflow:hidden;`;
+  (tpl.elements||[]).forEach(el=>{
+    const sub=document.createElement('div');
+    sub.style.position='absolute';
+    sub.style.left=Math.round(el.x*SCALE)+'px';
+    sub.style.top=Math.round(el.y*SCALE)+'px';
+    sub.style.width=Math.round(el.w*SCALE)+'px';
+    sub.style.height=Math.round(el.h*SCALE)+'px';
+    sub.style.boxSizing='border-box';
+    if(el.type==='text'){
+      sub.style.fontFamily='Arial,sans-serif';
+      sub.style.fontSize=(el.fontSize||14)+'px';
+      sub.style.color=el.color||'#000000';
+      sub.style.fontWeight=el.bold?'900':'400';
+      sub.style.textAlign=el.align||'left';
+      sub.style.overflow='hidden';
+      sub.style.whiteSpace='pre-wrap';
+      sub.style.lineHeight='1.15';
+      sub.style.wordBreak='break-word';
+      sub.textContent=substituteVars(el.content,values,fallbackSample);
+    } else if(el.type==='line'){
+      sub.style.background=el.color||'#000000';
+    } else if(el.type==='barcode'){
+      const code=substituteVars(el.value,values,fallbackSample)||' ';
+      const img=document.createElement('img');
+      img.style.width='100%'; img.style.height='100%'; img.style.objectFit='contain';
+      const c=document.createElement('canvas');
+      try{
+        JsBarcode(c,code,{format:'CODE128',displayValue:!!el.showText,fontSize:Math.max(8,Math.round(el.h*SCALE*0.15)),margin:2,background:'#FFFFFF',lineColor:'#000000'});
+        img.src=c.toDataURL();
+      }catch(e){}
+      sub.appendChild(img);
+    } else if(el.type==='qr'){
+      const code=substituteVars(el.value,values,fallbackSample)||' ';
+      const qWrap=document.createElement('div');
+      qWrap.style.width='100%'; qWrap.style.height='100%'; qWrap.style.background='#fff';
+      try{
+        new QRCode(qWrap,{text:code,width:Math.round(el.w*SCALE),height:Math.round(el.h*SCALE),colorDark:'#000000',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.M});
+      }catch(e){}
+      sub.appendChild(qWrap);
+    }
+    wrap.appendChild(sub);
+  });
+  return wrap;
+}
+
+/* ============================================================
+   IMPORTAR EXCEL → PDF
+============================================================ */
+let importSelectedTemplate = null;
+let importRows = [];
+
+function refreshImportTemplateSelect(){
+  const sel=document.getElementById('import-tpl-select'); if(!sel) return;
+  const list=loadTemplatesList();
+  const cur=importSelectedTemplate?importSelectedTemplate.id:'';
+  sel.innerHTML='<option value="">— Elegí una plantilla guardada —</option>'+list.map(t=>`<option value="${t.id}">${escapeHtml(t.name)}</option>`).join('');
+  sel.value=cur||'';
+}
+
+function onImportTemplateChange(){
+  const sel=document.getElementById('import-tpl-select');
+  const id=sel.value;
+  importSelectedTemplate = id ? (loadTemplatesList().find(t=>t.id===id)||null) : null;
+  validateImportMatch();
+}
+
+function onImportFileChange(evt){
+  const file=evt.target.files[0];
+  importRows=[];
+  if(!file){ validateImportMatch(); return; }
+  const reader=new FileReader();
+  reader.onload=(e)=>{
+    try{
+      const data=new Uint8Array(e.target.result);
+      const wb=XLSX.read(data,{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      importRows=XLSX.utils.sheet_to_json(ws,{defval:'',raw:false});
+    }catch(err){
+      alert('No se pudo leer el archivo: '+err.message);
+      importRows=[];
+    }
+    validateImportMatch();
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function validateImportMatch(){
+  const statusPanel=document.getElementById('import-status-panel');
+  const statusBody=document.getElementById('import-status-body');
+  const genPanel=document.getElementById('import-generate-panel');
+  const genBtn=document.getElementById('import-pdf-btn');
+  if(!statusPanel||!statusBody||!genPanel||!genBtn) return;
+
+  if(!importSelectedTemplate || importRows.length===0){
+    if(!importSelectedTemplate && importRows.length===0){ statusPanel.style.display='none'; genPanel.style.display='none'; return; }
+    statusPanel.style.display='block'; genPanel.style.display='none';
+    statusBody.innerHTML=`<div style="color:var(--ww-muted);font-size:11px;">${!importSelectedTemplate?'Elegí una plantilla.':'Subí un archivo con al menos una fila de datos.'}</div>`;
+    genBtn.disabled=true;
+    return;
+  }
+
+  const vars=extractVariablesFromElements(importSelectedTemplate.elements);
+  if(vars.length===0){
+    statusPanel.style.display='block'; genPanel.style.display='none';
+    statusBody.innerHTML=`<div style="color:#ff6b6b;font-size:11px;">Esta plantilla no tiene variables ({{nombre}}). Agregale variables en el Diseñador antes de usarla acá.</div>`;
+    genBtn.disabled=true;
+    return;
+  }
+
+  const columns=Object.keys(importRows[0]||{});
+  const missing=vars.filter(v=>!columns.includes(v));
+
+  statusPanel.style.display='block'; genPanel.style.display='block';
+  const chips=vars.map(v=>{
+    const ok=!missing.includes(v);
+    return `<span style="display:inline-block;margin:2px 4px 2px 0;padding:3px 8px;border-radius:12px;font-size:10px;font-weight:700;background:${ok?'#0f5132':'#5c1a1a'};color:${ok?'#8fe3a8':'#ff9b9b'};">${ok?'✅':'❌'} {{${v}}}</span>`;
+  }).join('');
+
+  if(missing.length>0){
+    statusBody.innerHTML=`
+      <div style="font-size:11px;margin-bottom:6px;">${chips}</div>
+      <div style="color:#ff6b6b;font-size:11px;">Faltan columnas en el Excel: <b>${missing.join(', ')}</b>. Agregá esas columnas (con esos nombres exactos) y volvé a subir el archivo.</div>`;
+    genBtn.disabled=true;
+  } else {
+    statusBody.innerHTML=`
+      <div style="font-size:11px;margin-bottom:6px;">${chips}</div>
+      <div style="color:#8fe3a8;font-size:11px;">Todo listo. Se van a generar <b>${importRows.length}</b> etiquetas, una por fila.</div>`;
+    genBtn.disabled=false;
+  }
+}
+
+async function generateImportPDF(){
+  if(!importSelectedTemplate || importRows.length===0) return;
+  const vars=extractVariablesFromElements(importSelectedTemplate.elements);
+  const columns=Object.keys(importRows[0]||{});
+  const missing=vars.filter(v=>!columns.includes(v));
+  if(missing.length>0){ alert('Faltan columnas: '+missing.join(', ')); return; }
+  if(importRows.length>1000){ alert(`Son ${importRows.length} filas. Máximo: 1000.`); return; }
+
+  const ppp=parseInt(document.getElementById('imp_ppp').value);
+  const {w:lw,h:lh}=getDimsForTemplate(importSelectedTemplate);
+  const btn=document.getElementById('import-pdf-btn');
+  btn.disabled=true; btn.textContent='⏳ Generando...';
+  document.getElementById('progress-wrap-imp').style.display='block';
+
+  const sandbox=document.createElement('div');
+  sandbox.style.cssText='position:fixed;left:-9999px;top:0;z-index:-1;background:#fff;';
+  document.body.appendChild(sandbox);
+
+  const {jsPDF}=window.jspdf;
+  const cols=ppp<=2?ppp:ppp<=4?2:3;
+  const rows=Math.ceil(ppp/cols);
+  const mg=2;
+  const pgW=lw*cols+mg*(cols+1);
+  const pgH=lh*rows+mg*(rows+1);
+  const orient=pgW>=pgH?'l':'p';
+  const pdf=new jsPDF({orientation:orient,unit:'mm',format:[pgW,pgH]});
+  let cellIndex=0;
+  const total=importRows.length;
+
+  for(let i=0;i<total;i++){
+    const label=buildLabelDOMFromTemplate(importSelectedTemplate, importRows[i], false);
+    label.style.background='#ffffff';
+    sandbox.innerHTML=''; sandbox.appendChild(label);
+    await sleep(90);
+    const canvas=await html2canvas(label,{scale:4,useCORS:true,backgroundColor:'#ffffff',allowTaint:false,logging:false});
+    const out=zebraSafe?threshold(canvas):canvas;
+    if(cellIndex>0 && cellIndex%ppp===0){ pdf.addPage([pgW,pgH],orient); cellIndex=0; }
+    const col=cellIndex%cols; const row=Math.floor(cellIndex/cols);
+    pdf.addImage(out.toDataURL('image/png'),'PNG',mg+col*(lw+mg),mg+row*(lh+mg),lw,lh);
+    cellIndex++;
+    const pct=Math.round(((i+1)/total)*100);
+    document.getElementById('progress-fill-imp').style.width=pct+'%';
+    document.getElementById('progress-text-imp').textContent=`${i+1} / ${total} (${pct}%)`;
+    await sleep(0);
+  }
+  document.body.removeChild(sandbox);
+  pdf.save(`etiquetas-${(importSelectedTemplate.name||'excel').replace(/[^a-z0-9]/gi,'-')}.pdf`);
+  btn.disabled=false; btn.textContent='📄 Generar PDF';
+  document.getElementById('progress-wrap-imp').style.display='none';
+  document.getElementById('progress-fill-imp').style.width='0%';
+}
+
+function renderGenVarInputs(){
+  const grid=document.getElementById('genvar-grid');
+  const emptyHint=document.getElementById('genvar-empty-hint');
+  if(!grid||!emptyHint) return;
+  const vars=extractTemplateVariables();
+  if(vars.length===0){ grid.innerHTML=''; emptyHint.style.display='block'; previewDesignerLabel(true); return; }
+  emptyHint.style.display='none';
+  grid.innerHTML=vars.map(v=>`
+    <div class="designer-props-field">
+      <label>{{${v}}}</label>
+      <input type="text" placeholder="${escapeHtml(sampleValueFor(v))}" value="${escapeHtml(genVarValues[v]||'')}" oninput="genVarValues[${JSON.stringify(v)}]=this.value;schedulePreviewUpdate();">
+    </div>`).join('');
+  previewDesignerLabel(true);
+}
+
+/* la vista previa se actualiza sola mientras se escribe, sin botón */
+let previewDebounceTimer=null;
+function schedulePreviewUpdate(){
+  clearTimeout(previewDebounceTimer);
+  previewDebounceTimer=setTimeout(()=>{ previewDesignerLabel(true); },150);
+}
+
+async function previewDesignerLabel(fallbackSample){
+  const container=document.getElementById('designerPreviewContainer'); if(!container) return;
+  container.innerHTML='';
+  const label=buildDesignerLabelDOM(genVarValues, !!fallbackSample);
+  label.style.boxShadow='0 4px 16px rgba(0,0,0,0.5)';
+  container.appendChild(label);
+  await sleep(60);
+}
+
+async function downloadDesignerPNG(){
+  await previewDesignerLabel(false);
+  const el=document.querySelector('#designerPreviewContainer > div'); if(!el) return;
+  const canvas=await html2canvas(el,{scale:4,useCORS:true,backgroundColor:'#ffffff'});
+  const out=zebraSafe?threshold(canvas):canvas;
+  const a=document.createElement('a'); a.download='etiqueta-diseno.png'; a.href=out.toDataURL('image/png'); a.click();
+  schedulePreviewUpdate();
+}
+
+async function downloadDesignerPDF(){
+  await previewDesignerLabel(false);
+  const el=document.querySelector('#designerPreviewContainer > div'); if(!el) return;
+  const {w,h}=getDesignerDims();
+  el.style.boxShadow='none';
+  const canvas=await html2canvas(el,{scale:6,useCORS:true,backgroundColor:'#ffffff',allowTaint:false});
+  const out=threshold(canvas);
+  const {jsPDF}=window.jspdf;
+  const orient=w>=h?'l':'p';
+  const pdf=new jsPDF({orientation:orient,unit:'mm',format:[w,h]});
+  pdf.addImage(out.toDataURL('image/png'),'PNG',0,0,w,h);
+  const suffix=zebraSafe?'_BN':'';
+  pdf.save(`etiqueta-diseno${suffix}.pdf`);
+  schedulePreviewUpdate();
+}
+
+function saveDesignerLabel(){
+  // TODO: lógica de guardado pendiente de definir.
+}
+
+/* ---- modo lote ---- */
+function addBatchRow(){
+  const vars=extractTemplateVariables();
+  if(vars.length===0){ alert('Agregá al menos una variable ({{...}}) a la plantilla antes de crear filas de lote.'); return; }
+  const row={id:'row'+Date.now()+Math.random().toString(36).slice(2,6),values:{}};
+  vars.forEach(v=>row.values[v]='');
+  batchRows.push(row);
+  renderBatchTable();
+}
+function removeBatchRow(id){ batchRows=batchRows.filter(r=>r.id!==id); renderBatchTable(); }
+function updateBatchCell(rowId,varName,value){ const row=batchRows.find(r=>r.id===rowId); if(row) row.values[varName]=value; }
+
+function renderBatchTable(){
+  const vars=extractTemplateVariables();
+  const head=document.getElementById('batch-table-head');
+  const body=document.getElementById('batch-table-body');
+  if(!head||!body) return;
+  if(vars.length===0){ head.innerHTML=''; body.innerHTML='<tr><td style="color:var(--ww-muted);padding:8px;">Agregá variables a la plantilla para habilitar el modo lote.</td></tr>'; return; }
+  head.innerHTML=vars.map(v=>`<th>{{${v}}}</th>`).join('')+'<th></th>';
+  if(batchRows.length===0){ body.innerHTML=`<tr><td colspan="${vars.length+1}" style="color:var(--ww-muted);padding:8px;">Sin filas. Usá "Agregar fila".</td></tr>`; return; }
+  body.innerHTML=batchRows.map(row=>{
+    vars.forEach(v=>{ if(row.values[v]===undefined) row.values[v]=''; });
+    const cells=vars.map(v=>`<td><input type="text" value="${escapeHtml(row.values[v]||'')}" oninput="updateBatchCell(${JSON.stringify(row.id)},${JSON.stringify(v)},this.value)"></td>`).join('');
+    return `<tr>${cells}<td><button class="batch-del" onclick="removeBatchRow(${JSON.stringify(row.id)})">🗑</button></td></tr>`;
+  }).join('');
+}
+
+async function generateBatchPDF(){
+  const vars=extractTemplateVariables();
+  if(vars.length===0){ alert('La plantilla no tiene variables dinámicas.'); return; }
+  if(batchRows.length===0){ alert('Agregá al menos una fila.'); return; }
+  if(batchRows.length>500){ alert(`Son ${batchRows.length} etiquetas. Máximo: 500.`); return; }
+  const ppp=parseInt(document.getElementById('d_ppp').value);
+  const {w:lw,h:lh}=getDesignerDims();
+  const btn=document.getElementById('batch-pdf-btn');
+  btn.disabled=true; btn.textContent='⏳ Generando...';
+  document.getElementById('progress-wrap-d').style.display='block';
+
+  const sandbox=document.createElement('div');
+  sandbox.style.cssText='position:fixed;left:-9999px;top:0;z-index:-1;background:#fff;';
+  document.body.appendChild(sandbox);
+
+  const {jsPDF}=window.jspdf;
+  const cols=ppp<=2?ppp:ppp<=4?2:3;
+  const rows=Math.ceil(ppp/cols);
+  const mg=2;
+  const pgW=lw*cols+mg*(cols+1);
+  const pgH=lh*rows+mg*(rows+1);
+  const orient=pgW>=pgH?'l':'p';
+  const pdf=new jsPDF({orientation:orient,unit:'mm',format:[pgW,pgH]});
+  let cellIndex=0;
+  const total=batchRows.length;
+
+  for(let i=0;i<total;i++){
+    const label=buildDesignerLabelDOM(batchRows[i].values);
+    label.style.background='#ffffff';
+    sandbox.innerHTML=''; sandbox.appendChild(label);
+    await sleep(90);
+    const canvas=await html2canvas(label,{scale:4,useCORS:true,backgroundColor:'#ffffff',allowTaint:false,logging:false});
+    const out=threshold(canvas);
+    if(cellIndex>0 && cellIndex%ppp===0){ pdf.addPage([pgW,pgH],orient); cellIndex=0; }
+    const col=cellIndex%cols; const row=Math.floor(cellIndex/cols);
+    pdf.addImage(out.toDataURL('image/png'),'PNG',mg+col*(lw+mg),mg+row*(lh+mg),lw,lh);
+    cellIndex++;
+    const pct=Math.round(((i+1)/total)*100);
+    document.getElementById('progress-fill-d').style.width=pct+'%';
+    document.getElementById('progress-text-d').textContent=`${i+1} / ${total} (${pct}%)`;
+    await sleep(0);
+  }
+  document.body.removeChild(sandbox);
+  pdf.save('etiquetas-lote-diseno.pdf');
+  btn.disabled=false; btn.textContent='📄 Generar PDF del lote';
+  document.getElementById('progress-wrap-d').style.display='none';
+  document.getElementById('progress-fill-d').style.width='0%';
+}
+
+/* ---- plantillas (localStorage) ---- */
+function loadTemplatesList(){ try{ return JSON.parse(localStorage.getItem(TEMPLATES_KEY)||'[]'); }catch(e){ return []; } }
+function saveTemplatesList(list){ try{ localStorage.setItem(TEMPLATES_KEY,JSON.stringify(list)); }catch(e){} }
+
+function refreshTemplateSelect(){
+  const sel=document.getElementById('tpl-select'); if(!sel) return;
+  const list=loadTemplatesList();
+  const cur=currentTemplateId;
+  sel.innerHTML='<option value="">— Sin plantilla (nueva) —</option>'+list.map(t=>`<option value="${t.id}">${escapeHtml(t.name)}</option>`).join('');
+  sel.value=cur||'';
+}
+
+function collectCurrentTemplateData(name,id){
+  const {w,h}=getDesignerBaseSize();
+  return {
+    id: id||newElId(),
+    name: name,
+    canvasW: w, canvasH: h,
+    custom: designerCustom,
+    zebraId: designerZebraId,
+    orientation: designerOrientation,
+    elements: JSON.parse(JSON.stringify(designerElements)),
+  };
+}
+
+function toggleTplActionsMenu(e){
+  if(e) e.stopPropagation();
+  const m=document.getElementById('tpl-actions-menu'); if(!m) return;
+  m.classList.toggle('open');
+}
+function closeTplActionsMenu(){
+  const m=document.getElementById('tpl-actions-menu'); if(m) m.classList.remove('open');
+}
+document.addEventListener('click', function(e){
+  const m=document.getElementById('tpl-actions-menu'); if(!m || !m.classList.contains('open')) return;
+  if(m.contains(e.target) || e.target.id==='tpl-actions-btn') return;
+  m.classList.remove('open');
+});
+
+function newTemplate(){
+  if(designerElements.length>0 && !confirm('¿Descartar el diseño actual y empezar uno nuevo?')) return;
+  designerElements=[]; selectedElementId=null; currentTemplateId=null; genVarValues={}; batchRows=[];
+  clearLivePreviewCaches();
+  designerZebraId='z4'; designerCustom=false;
+  document.getElementById('d_custom_w').value=101.6;
+  document.getElementById('d_custom_h').value=50.8;
+  setDesignerOrient('h');
+  renderDesignerZebraGrid();
+  renderDesignerAll();
+  refreshTemplateSelect();
+}
+
+function saveTemplate(){
+  const list=loadTemplatesList();
+  if(currentTemplateId){
+    const idx=list.findIndex(t=>t.id===currentTemplateId);
+    if(idx>=0){
+      const data=collectCurrentTemplateData(list[idx].name,currentTemplateId);
+      list[idx]=data;
+      saveTemplatesList(list);
+      refreshTemplateSelect();
+      alert('Plantilla actualizada: '+data.name);
+      return;
+    }
+  }
+  const name=prompt('Nombre de la plantilla:','Mi plantilla');
+  if(!name) return;
+  const data=collectCurrentTemplateData(name.trim());
+  list.push(data);
+  saveTemplatesList(list);
+  currentTemplateId=data.id;
+  refreshTemplateSelect();
+  alert('Plantilla guardada: '+data.name);
+}
+
+function saveTemplateAsCopy(){
+  const name=prompt('Nombre de la copia:','Mi plantilla (copia)');
+  if(!name) return;
+  const list=loadTemplatesList();
+  const data=collectCurrentTemplateData(name.trim());
+  list.push(data);
+  saveTemplatesList(list);
+  currentTemplateId=data.id;
+  refreshTemplateSelect();
+  alert('Copia guardada: '+data.name);
+}
+
+function deleteTemplate(){
+  if(!currentTemplateId){ alert('No hay ninguna plantilla guardada seleccionada.'); return; }
+  const list=loadTemplatesList();
+  const tpl=list.find(t=>t.id===currentTemplateId);
+  if(!tpl) return;
+  if(!confirm(`¿Eliminar la plantilla "${tpl.name}"? Esta acción no se puede deshacer.`)) return;
+  saveTemplatesList(list.filter(t=>t.id!==currentTemplateId));
+  currentTemplateId=null;
+  refreshTemplateSelect();
+}
+
+function exportTemplate(){
+  const data = currentTemplateId ? loadTemplatesList().find(t=>t.id===currentTemplateId) : collectCurrentTemplateData('Sin guardar','tmp');
+  if(!data){ alert('No hay plantilla para exportar.'); return; }
+  const payload = Object.assign({ app:'WitWot-LabelDesigner', formatVersion:1 }, data);
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/octet-stream'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`${(data.name||'etiqueta').replace(/[^a-z0-9]/gi,'-')}.zebradesign`;
+  a.click();
+}
+
+function importTemplate(evt){
+  const file=evt.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      if(!data.elements) throw new Error('Formato inválido');
+      data.id=newElId();
+      if(!data.name) data.name='Plantilla importada';
+      const list=loadTemplatesList();
+      list.push(data);
+      saveTemplatesList(list);
+      currentTemplateId=data.id;
+      refreshTemplateSelect();
+      loadTemplateIntoDesigner(data);
+      alert('Plantilla importada: '+data.name);
+    }catch(e){
+      alert('No se pudo importar el archivo: '+e.message);
+    }
+  };
+  reader.readAsText(file);
+  evt.target.value='';
+}
+
+function onTemplateSelectChange(){
+  const sel=document.getElementById('tpl-select');
+  const id=sel.value;
+  if(!id){ currentTemplateId=null; return; }
+  const list=loadTemplatesList();
+  const tpl=list.find(t=>t.id===id);
+  if(!tpl) return;
+  currentTemplateId=id;
+  loadTemplateIntoDesigner(tpl);
+}
+
+function loadTemplateIntoDesigner(tpl){
+  designerElements=JSON.parse(JSON.stringify(tpl.elements||[]));
+  selectedElementId=null;
+  genVarValues={}; batchRows=[];
+  clearLivePreviewCaches();
+  designerZebraId=tpl.zebraId||'z4';
+  designerCustom=!!tpl.custom;
+  if(tpl.canvasW) document.getElementById('d_custom_w').value=tpl.canvasW;
+  if(tpl.canvasH) document.getElementById('d_custom_h').value=tpl.canvasH;
+  setDesignerOrient(tpl.orientation||'h');
+  renderDesignerZebraGrid();
+  renderDesignerAll();
+}
+
+/* ============================================================
    ZOOM
 ============================================================ */
 let zoomLevel = 1.0;
@@ -864,6 +2037,9 @@ try {
 
 /* INIT */
 renderZebraGrids();
+renderDesignerZebraGrid();
+refreshTemplateSelect();
+renderDesignerAll();
 setTimeout(()=>{update();updateCount();applyZoom();},200);
 </script>
 </body>
